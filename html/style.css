@@ -1,0 +1,63 @@
+.ce_headline{
+    color: #FFA449;
+    text-align: center;
+}
+
+.mod_nlsh_guestbook .countcommentstext{
+    text-align: center;
+}
+
+.mod_nlsh_guestbook .pagination,
+.mod_nlsh_guestbook .pagination a {
+    color: #80A0FF;}
+
+.mod_nlsh_guestbook .linknewentrie{
+    text-decoration:none;
+    color: #80A0FF;
+}
+
+.mod_nlsh_guestbook .pagination p{
+    display: inline;
+}
+
+.mod_nlsh_guestbook .pagination li{
+    float: left;
+    padding-left: 1em;
+}
+
+.mod_nlsh_guestbook .pagination ul{
+    float: right;
+    margin-bottom: 0px;
+}
+
+.mod_nlsh_guestbook .odd{
+    background-color: #EFEFEF;
+}
+
+.mod_nlsh_guestbook div{
+    margin: 10px 10px 20px !important;
+}
+
+.mod_nlsh_guestbook .info {
+    margin-bottom: 0px;
+}
+
+.mod_nlsh_guestbook .headlinecomment{
+    font-weight: bold;
+    margin-left: 0 !important;
+}
+
+.mod_nlsh_guestbook .nr {
+    color: #FFa449;
+    margin-right: .5em;
+}
+
+.mod_nlsh_guestbook .quote{
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.mod_nlsh_guestbook .quote p{
+     font-weight: bold;
+     margin-bottom: 0.5em;
+}

@@ -23,21 +23,25 @@
  * PHP version 5
  * @copyright  Nils Heinold 
  * @author     Nils Heinold 
- * @package    nlsh_guestbook 
+ * @package    Language
  * @license    LGPL 
  * @filesource
  */
 
 
 /**
- * Back end modules
- */
-$GLOBALS['TL_LANG']['MOD']['nlsh_guestbook'] = array('Gästebuch', 'Verwalten Sie hier die Einträge Ihres Gästebuches');
+* Content elements
+*/
 
 
 /**
- * Front end modules
- */
-$GLOBALS['TL_LANG']['FMD'][''] = array('', '');
+* Front end modules
+*/
+$GLOBALS['TL_LANG']['FMD']['nlsh_guestbook'] = array('Gästebuch','Fügt das Gästebuch ein.');
 
+
+/**
+* Back end modules
+*/
+$GLOBALS['TL_LANG']['MOD']['nlsh_guestbook'] = array('Gästebuch','Fügt das Gästebuch ein.');
 ?>

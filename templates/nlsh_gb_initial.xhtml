@@ -1,0 +1,28 @@
+<?php
+//$this->showTemplateVars(); ?>
+
+<?php>
+
+$arrTemplateVars = array
+(
+        'id'                => substr($this->id,1),
+        'name'              => $this->name,
+        'email'             => $this->email,
+        'website'           => $this->website,
+        'comment'           => $this->comment,
+        'addReply'          => $this->addReply,
+        'reply'             => $this->reply,
+        'author'            => $this->author,
+        'date'              => $this->date,
+        'datim'             => $this->datim,
+        'datetime'          => $this->datetime,
+        'timestamp'         => $this->timestamp,
+        'ip'                => $this->ip,
+        'authorName'        => $this->authorName,
+        'class'             => $this->class,
+        'by'                => $this->by,
+        'rby'               => $this->rby,
+);
+
+echo '^' . serialize($arrTemplateVars) . '^';
+?>

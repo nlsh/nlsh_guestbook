@@ -14,7 +14,7 @@ Dies ist eine Erweiterung für das CMS Contao, siehe http://www.contao.org
 Download
 --------
 
-- http://www.contao.org/de/extension-list/view/nlsh_guestebook.html -> noch nicht, da in Entwicklungsphase
+- http://www.contao.org/de/extension-list/view/nlsh_guestebook.html
 - http://github.com/nlsh/nlsh_guestbook
 
 Installation
