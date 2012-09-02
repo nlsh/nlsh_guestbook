@@ -140,8 +140,14 @@ class ModuleNlshComments extends ModuleComments
         $form  = "\n<div class=\"form\">\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n</div>\n<!-- indexer::continue -->\n";
 
         // Formular erweitern mit Auswahl Smilies und BBCode und Überschriftenfeld
-        $bbCode  = $this->_getHtmlDivSelectBbcOrSmilies('bbcode', 'com_tl_page_' . $objPage->id, $this->arrBbcFormat);
-        $smilies = $this->_getHtmlDivSelectBbcOrSmilies('smilies', 'com_tl_page_' . $objPage->id, $this->arrSmilies);
+        if ( $this->com_bbcode == true)
+        {
+            $bbCode  = $this->_getHtmlDivSelectBbcOrSmilies('bbcode', 'com_tl_page_' . $objPage->id, $this->arrBbcFormat);
+            $smilies = $this->_getHtmlDivSelectBbcOrSmilies('smilies', 'com_tl_page_' . $objPage->id, $this->arrSmilies);
+
+            $form = str_replace('<div class="submit_container">', $bbCode . $smilies . "\n" . '<div class="submit_container">', $form);
+        }
+
         $headline = "<div class =\"widget\">\n"
                     . "  <input id=\"ctrl_headline\" class=\"text\" type=\"text\" maxlength=\"255\" value=\"\" name=\"headline\" />"
                     . " <label for=\"ctrl_headline\"><span class=\"headline\">" . $GLOBALS['TL_LANG']['nlsh_guestbook']['headline'] . "</span></label>"
@@ -150,8 +156,6 @@ class ModuleNlshComments extends ModuleComments
         $startHeadline = strpos($form, '<textarea') - 23;
 
         $form = substr($form, 0, $startHeadline) . $headline  . substr($form, $startHeadline);
-
-        $form = str_replace('<div class="submit_container">', $bbCode . $smilies . "\n" . '<div class="submit_container">', $form);
 
         $return['form'] = $form;
 
