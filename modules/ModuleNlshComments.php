@@ -19,7 +19,7 @@ namespace nlsh\nlsh_guestbook;
  * @author     Nils Heinold
  * @package    nlsh_guestbook
  */
-class ModuleNlshComments extends ModuleComments
+class ModuleNlshComments extends \ModuleComments
 {
 
     // Definition der Smilies in einem Array
@@ -75,7 +75,7 @@ class ModuleNlshComments extends ModuleComments
 
         // Template wechseln
         $this->strTemplate = $this->com_nlsh_gb_template;
-        $this->Template    = new FrontendTemplate($this->strTemplate);
+        $this->Template    = new \FrontendTemplate($this->strTemplate);
 
         // String zerlegen und Übergabe in das Template
         $templateVars = $this->_getTemplateVars($strOutput);
