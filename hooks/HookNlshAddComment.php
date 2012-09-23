@@ -1,13 +1,17 @@
 <?php
 
 /**
- * PHP version 5
- * @copyright  Nils Heinold
- * @author     Nils Heinold
- * @package    nlsh_guestbook
- * @license    LGPL
- * @filesource
- */
+* Contao Open Source CMS
+*
+* Copyright (C) 2005-2012 Leo Feyer
+*
+* @package nlsh_guestbook
+* @author Nils Heinold
+* @link http://github.com/nlsh/nlsh_guestbook
+* @license LGPL
+* @copyright Nils Heinold 2012
+*/
+
 
 namespace nlsh\nlsh_guestbook;
 
@@ -19,7 +23,7 @@ namespace nlsh\nlsh_guestbook;
  * @author     Nils Heinold
  * @package    nlsh_guestbook
  */
-class HookNlshAddComment extends Backend
+class HookNlshAddComment extends \Backend
 {
     // Definition der Smilies in einem Array
     public $arrSmilies = array
@@ -76,7 +80,7 @@ class HookNlshAddComment extends Backend
         if ( $typeModule->type == 'nlsh_guestbook')
         {
             // Smilies außerhalb der Extension hinzufügen
-            $arrSmilies = $this->arrSmilies;
+            $arrSmilies   = $this->arrSmilies;
             $arrSmilies[] = array (':-)', '', 'smile.gif');
             $arrSmilies[] = array (':-(', '', 'sad.gif');
             $arrSmilies[] = array (';-)', '', 'wink.gif');

@@ -1,13 +1,15 @@
 <?php
-
 /**
- * PHP version 5
- * @copyright  Nils Heinold 
- * @author     Nils Heinold
- * @package    Language
- * @license    LGPL 
- * @filesource
- */
+* Contao Open Source CMS
+*
+* Copyright (C) 2005-2012 Leo Feyer
+*
+* @package nlsh_guestbook
+* @author Nils Heinold
+* @link http://github.com/nlsh/nlsh_guestbook
+* @license LGPL
+* @copyright Nils Heinold 2012
+*/
 
 
 /**
