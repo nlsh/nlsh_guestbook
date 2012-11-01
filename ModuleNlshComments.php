@@ -139,6 +139,10 @@ class ModuleNlshComments extends ModuleComments
         $end   = strpos($strFromInitialTemplate, '</form>') + 7;
         $form  = "\n<div class=\"form\">\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n</div>\n<!-- indexer::continue -->\n";
 
+        // self::GET_INPUT_GBENTRIE auf false setzen, damit nach Eingabe eines Eintrages das Gästebuch wieder angezeigt wird
+        // siehe #3
+        $form = str_replace(self::GET_INPUT_GBENTRIE . '=true', self::GET_INPUT_GBENTRIE . '=false', $form);
+
         // Formular erweitern mit Auswahl Smilies und BBCode und Überschriftenfeld
         if ( $this->com_bbcode == true)
         {
