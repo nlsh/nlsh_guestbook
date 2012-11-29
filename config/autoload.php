@@ -26,10 +26,10 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	// Hooks
-	'nlsh\nlsh_guestbook\HookNlshAddComment' => 'system/modules/nlsh_guestbook/hooks/HookNlshAddComment.php',
+	'nlsh\guestbook\HookNlshAddComment' => 'system/modules/nlsh_guestbook/hooks/HookNlshAddComment.php',
 
 	// Modules
-	'nlsh\nlsh_guestbook\ModuleNlshComments' => 'system/modules/nlsh_guestbook/modules/ModuleNlshComments.php',
+	'nlsh\guestbook\ModuleNlshComments' => 'system/modules/nlsh_guestbook/modules/ModuleNlshComments.php',
 ));
 
 

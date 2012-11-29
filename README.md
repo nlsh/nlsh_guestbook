@@ -17,6 +17,11 @@ Download
 - http://www.contao.org/de/extension-list/view/nlsh_guestebook.html
 - http://github.com/nlsh/nlsh_guestbook
 
+API- Dokumentation
+------------------
+
+- http://http://apimasternlshguestbook.nils-heinold.de/
+
 Installation
 ------------
 

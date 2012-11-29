@@ -1,31 +1,31 @@
 <?php
-
 /**
-* Contao Open Source CMS
-*
-* Copyright (C) 2005-2012 Leo Feyer
-*
-* @package nlsh_guestbook
-* @author Nils Heinold
-* @link http://github.com/nlsh/nlsh_guestbook
-* @license LGPL
-* @copyright Nils Heinold 2012
+* Namespace der Erweiterung.
 */
-
-
-namespace nlsh\nlsh_guestbook;
+namespace nlsh\guestbook;
 
 
 /**
- * Class HookNlshAddComment
+ * Contao- Hook 'AddComment' zum nachträglichen bearbeiten des eingegebenen Kommentares.
+ * Natürlich nur, wenn Eintrag vom eigenem Modul.
  *
- * @copyright  Nils Heinold
+ * Hier werden die Smilies durch das HTML- img- Tags ersetzt
+ *
+ * und die Überschriften zu dem Kommentar eingefügt
+ *
+ * @copyright  Nils Heinold 2012
  * @author     Nils Heinold
  * @package    nlsh_guestbook
+ * @link       http://github.com/nlsh/nlsh_guestbook
+ * @license    LGPL
  */
 class HookNlshAddComment extends \Backend
 {
-    // Definition der Smilies in einem Array
+    /**
+     * Definition der Smilies in einem Array
+     *
+     * Definition der Smilies in einem Array
+     */
     public $arrSmilies = array
     (
         array ('[smile]:D[/smile]',        '', 'big.gif'),
@@ -53,9 +53,10 @@ class HookNlshAddComment extends \Backend
 
 
     /**
-     * Neueingetragenen Eintrag bearbeiten
-     * @param int ID des neu eingetragenen Gästebucheintrages
-     * @param array Array des Gästebucheintrages
+     * Neueingetragenen Eintrag bearbeiten und speichern
+     *
+     * @param int   ID des neu eingetragenen Gästebucheintrages
+     * @param array Array mit neuem Gästebucheintrag
      */
 
     public function nlshAddComment($intId, $arrComment)
@@ -106,9 +107,11 @@ class HookNlshAddComment extends \Backend
 
 
     /**
-     * Kontrolliert den String auf unerlaubte Eingaben
-     * @param string zu kontrollierender String
-     * @return string bereinigter String
+     * Kontrolliert den String auf unerlaubte Eingaben.
+     * !kopiert aus dem Core von Contao!
+     *
+     * @param  string  zu kontrollierender String
+     * @return string  bereinigter String
      */
     protected function _checkString($strToCheck)
     {

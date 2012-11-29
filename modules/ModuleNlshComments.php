@@ -1,33 +1,27 @@
 <?php
-
 /**
-* Contao Open Source CMS
-*
-* Copyright (C) 2005-2012 Leo Feyer
-*
-* @package nlsh_guestbook
-* @author Nils Heinold
-* @link http://github.com/nlsh/nlsh_guestbook
-* @license LGPL
-* @copyright Nils Heinold 2012
+* Namespace der Erweiterung
 */
-
-
-namespace nlsh\nlsh_guestbook;
+namespace nlsh\guestbook;
 
 
 /**
- * Class ModuleNlshComments
+ * Übergibt die vom Core- Modul Comments über das 'Initial'- Template erzeugten Daten an das Template.
  *
- * @copyright  Nils Heinold
+ * @copyright  Nils Heinold 2012
  * @author     Nils Heinold
  * @package    nlsh_guestbook
+ * @link       http://github.com/nlsh/nlsh_guestbook
+ * @license    LGPL
  */
 class ModuleNlshComments extends \ModuleComments
 {
-
-    // Definition der Smilies in einem Array
-    public $arrSmilies = array
+    /**
+     * Definition der Smilies in einem Array
+     *
+     * Definition der Smilies in einem Array
+     */
+    protected $arrSmilies = array
     (
         array ('[smile]:D[/smile]',        '', 'big.gif'),
         array ('[smile]:)[/smile]',        '', 'smile.gif'),
@@ -53,18 +47,49 @@ class ModuleNlshComments extends \ModuleComments
     );
 
 
-    // Get- Parameter, um einen Eintrag zu erzeugen
+    /**
+     * Definition des GET- Namens zur Abfrage des Gästebuch- Modules
+     */
     const GET_INPUT_GBENTRIE = 'nlsh_gb_input';
 
 
+    /**
+     * Neueintrag für Gästebuch.
+     * Handelt es sich um einen Neueintrag ins Gästebuch?
+     *
+     * @var boolean
+     */
+     protected $inputNewEntrie = false;
+
+
+    /**
+     * Ergebnis von der geerbten Klasse Comments abfragen und zerlegen.
+     */
     public function generate()
     {
+        /**
+         * Anzeige einer Wildcard im Backend
+         */
+        if (TL_MODE == 'BE')
+        {
+            $objTemplate = new \BackendTemplate('be_wildcard');
+
+            $objTemplate->wildcard = '### NLSH GUESTBOOK ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'contao/main.php?do=modules&amp;act=edit&amp;id=' . $this->id;
+
+            return $objTemplate->parse();
+        }
+
         // die gbentries.txt importieren
         //$this->importGbEntries('tl_files/');
 
         // Die Originalmethode ausführen
         $strOutput = parent::generate();
 
+        // Sprache nachladen
         $this->loadLanguageFile('tl_style');
 
         // BBCode definieren
@@ -82,7 +107,7 @@ class ModuleNlshComments extends \ModuleComments
         $this->Template    = new \FrontendTemplate($this->strTemplate);
 
         // String zerlegen und Übergabe in das Template
-        $templateVars = $this->_getTemplateVars($strOutput);
+        $templateVars = $this->getTemplateVars($strOutput);
 
         $this->Template->countCommentsText = $templateVars['countCommentsText'];
         $this->Template->form              = $templateVars['form'];
@@ -113,11 +138,12 @@ class ModuleNlshComments extends \ModuleComments
 
 
     /**
-     * Zerlegung des Initialstrings
-     * @param string HTML- Ausgabestring des 'nlsh_gb_initial'- Templates
-     * @return array Array mit den Daten
+     * Zerlegung des Initialstrings in seine Bestandteile
+     *
+     * @param  string  HTML- Ausgabestring des 'nlsh_gb_initial'- Templates
+     * @return array   Array mit den Daten
      */
-    protected function _getTemplateVars($strFromInitialTemplate)
+    public function getTemplateVars($strFromInitialTemplate)
     {
         global $objPage;
 
@@ -126,15 +152,15 @@ class ModuleNlshComments extends \ModuleComments
         $end   = strpos($strFromInitialTemplate, '</form>') + 7;
         $form  = "\n<div class=\"form\">\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n</div>\n<!-- indexer::continue -->\n";
 
-        // self::GET_INPUT_GBENTRIE auf false setzen, damit nach Eingabe eines Eintrages das Gästebuch wieder angezeigt wird
+        // Wert von self::GET_INPUT_GBENTRIE auf false setzen, damit nach Eingabe eines Eintrages das Gästebuch wieder angezeigt wird
         // siehe #3
         $form = str_replace(self::GET_INPUT_GBENTRIE . '=true', self::GET_INPUT_GBENTRIE . '=false', $form);
 
         // Formular erweitern mit Auswahl Smilies und BBCode und Überschriftenfeld
         if ( $this->com_bbcode == true)
         {
-            $bbCode  = $this->_getHtmlDivSelectBbcOrSmilies('bbcode', 'com_tl_page_' . $objPage->id, $this->arrBbcFormat);
-            $smilies = $this->_getHtmlDivSelectBbcOrSmilies('smilies', 'com_tl_page_' . $objPage->id, $this->arrSmilies);
+            $bbCode  = $this->getHtmlDivSelectBbcOrSmilies('bbcode', 'com_tl_page_' . $objPage->id, $this->arrBbcFormat);
+            $smilies = $this->getHtmlDivSelectBbcOrSmilies('smilies', 'com_tl_page_' . $objPage->id, $this->arrSmilies);
 
             $form = str_replace('<div class="submit_container">', $bbCode . $smilies . "\n" . '<div class="submit_container">', $form);
         }
@@ -225,15 +251,17 @@ class ModuleNlshComments extends \ModuleComments
 
 
     /**
-     * HTML- String zur Auswahl der BB- Codes und Smilies
-     * @param string CSS- Klasse für Div- Container
-     * @param array Smiliebeschreibungen/BBCodebeschreibung
-     * @return string Html für Auswahl- Container
+     * HTML- String zur Auswahl der BB- Codes und Smilies erzeugen
+     *
+     * @param  string  CSS- Klasse für Div- Container
+     * @param  string  Name des CSS-ID`s des Formulares, in dem sich die Textarea befindet
+     * @param  array   Smiliebeschreibungen/BBCodebeschreibung
+     * @return string  Html für Auswahl- Container
      */
-     protected function _getHtmlDivSelectBbcOrSmilies ($strClass, $strIdForm, $arrArray)
+     public function getHtmlDivSelectBbcOrSmilies ($strClass, $strCssIdForm, $arrArray)
      {
         $return  = '<div class="' . $strClass . '">';
-        $return .= $this->_getHtmlLinkInsertWithJava($strIdForm, $arrArray);
+        $return .= $this->getHtmlLinkInsertWithJava($strCssIdForm, $arrArray);
         $return .= "</div>\n";
 
         return $return;
@@ -242,19 +270,20 @@ class ModuleNlshComments extends \ModuleComments
 
 
     /**
-     * Erstellt das Html für einen Link für die Auswahl des BBCodes/ Smilies
-     * @param string Name des Id`s des Formulares, in dem sich die Textarea befindet
-     * @param array Array mit den Smiliebeschreibungen/BBCodebeschreibung
-     * @return string HTML für den Link
+     * Erstellt das HTML für einen Link für die Auswahl des BBCodes/ Smilies
+     *
+     * @param  string  Name des CSS- Id`s des Formulares, in dem sich die Textarea befindet
+     * @param  array   Array mit den Smiliebeschreibungen/BBCodebeschreibung
+     * @return string  HTML für den Link
      */
-    protected function _getHtmlLinkInsertWithJava($strFormId, $arrArray)
+    public function getHtmlLinkInsertWithJava($strCssFormId, $arrArray)
     {
         $strUrl  = 'system/modules/nlsh_guestbook/html/smilies/';
         $strHtml = '';
 
         for ($i = 0; $i < count($arrArray); $i++)
         {
-            $strHtml .= "\n<a href=\"javascript:insert('$strFormId', ' " . $arrArray[$i][0] . " ', ' " . $arrArray[$i][1] . " ')\"><img src=\"" . $strUrl . $arrArray[$i][2] . "\" alt=\"" . $arrArray[$i][0] . "\" title=\"" . $arrArray[$i][3] . "\" /></a>";
+            $strHtml .= "\n<a href=\"javascript:insert('$strCssFormId', ' " . $arrArray[$i][0] . " ', ' " . $arrArray[$i][1] . " ')\"><img src=\"" . $strUrl . $arrArray[$i][2] . "\" alt=\"" . $arrArray[$i][0] . "\" title=\"" . $arrArray[$i][3] . "\" /></a>";
         }
 
         return $strHtml;
@@ -262,8 +291,9 @@ class ModuleNlshComments extends \ModuleComments
 
 
     /**
-     * HTML- String für Link zum neuen Eintrag erzeugen
-     * @return string HTML- String für Link zum neuen Eintrag
+     * HTML- String für Link zum neuen Gästebucheintrag erzeugen
+     *
+     * @return string  HTML- String für Link zum neuen Eintrag
      */
     public function getHtmlLinkForNewNlshGbEntrie()
     {

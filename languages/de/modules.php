@@ -1,15 +1,13 @@
 <?php
 
 /**
-* Contao Open Source CMS
+* This is the language file (de) for tl_modules.
 *
-* Copyright (C) 2005-2012 Leo Feyer
-*
-* @package nlsh_guestbook
-* @author Nils Heinold
-* @link http://github.com/nlsh/nlsh_guestbook
-* @license LGPL
-* @copyright Nils Heinold 2012
+* @package    nlsh_guestbook
+* @author     Nils Heinold
+* @link       http://github.com/nlsh/nlsh_guestbook
+* @license    LGPL
+* @copyright  Nils Heinold 2012
 */
 
 

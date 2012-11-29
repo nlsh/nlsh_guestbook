@@ -62,7 +62,7 @@
  */
 array_insert ($GLOBALS['FE_MOD']['application'],3, array
 (
-    'nlsh_guestbook' => 'nlsh_guestbook\ModuleNlshComments',
+    'nlsh_guestbook' => 'nlsh\guestbook\ModuleNlshComments',
 ));
 
 
@@ -160,7 +160,7 @@ array_insert ($GLOBALS['FE_MOD']['application'],3, array
  * Use function array_insert() to modify an existing hooks array.
  */
 
-$GLOBALS['TL_HOOKS']['addComment'][] = array('nlsh_guestbook\HookNlshAddComment', 'nlshAddComment');
+$GLOBALS['TL_HOOKS']['addComment'][] = array('nlsh\guestbook\HookNlshAddComment', 'nlshAddComment');
 
 /**
  * -------------------------------------------------------------------------
