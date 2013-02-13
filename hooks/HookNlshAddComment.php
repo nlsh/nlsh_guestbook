@@ -111,14 +111,16 @@ class HookNlshAddComment extends \Backend
             $this->Database->prepare("UPDATE `tl_comments` SET `comment` = ? WHERE `id` =?")
                         ->execute($arrComment['comment'], $intId);
 
-            // Benachrichtigungsmail über neuen Eintrag erstellen und senden, wenn gewünscht
+            // Benachrichtigungs- Mail über neuen Eintrag erstellen und senden, wenn gewünscht
             if ($this->tl_module->com_nlsh_gb_bolMail == true)
             {
                 $this->import('Email');
 
                 $email = new \email;
                 $email->subject = $GLOBALS['TL_LANG']['nlsh_guestbook']['email_subject'];
-                //$email->text = $arrComment['comment'];
+                $email->html    = str_replace('[h]', '<h1>', $arrComment['comment']);
+                $email->html    = str_replace('[/h]', '</h1>',$email->html);
+
                 $email->sendTo($this->tl_module->com_nlsh_gb_email);
             }
         };
