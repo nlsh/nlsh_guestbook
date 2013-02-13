@@ -9,7 +9,7 @@
 * @author Nils Heinold
 * @link http://github.com/nlsh/nlsh_guestbook
 * @license LGPL
-* @copyright Nils Heinold 2012
+* @copyright Nils Heinold 2013
 */
 
 

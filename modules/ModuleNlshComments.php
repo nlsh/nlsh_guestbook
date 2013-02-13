@@ -8,7 +8,7 @@ namespace nlsh\guestbook;
 /**
  * Übergibt die vom Core- Modul Comments über das 'Initial'- Template erzeugten Daten an das Template.
  *
- * @copyright  Nils Heinold 2012
+ * @copyright  Nils Heinold 2013
  * @author     Nils Heinold
  * @package    nlshGuestbook
  * @link       http://github.com/nlsh/nlsh_guestbook
