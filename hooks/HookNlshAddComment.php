@@ -6,16 +6,16 @@ namespace nlsh\guestbook;
 
 
 /**
- * Contao- Hook 'AddComment' zum nachträglichen bearbeiten des eingegebenen Kommentares.
+ * Contao- Hook 'AddComment' zum nachträglichen bearbeiten des eingegebenen Kommentares
  * Natürlich nur, wenn Eintrag vom eigenem Modul.
  *
  * Hier werden die Smilies durch das HTML- img- Tags ersetzt
  *
  * und die Überschriften zu dem Kommentar eingefügt
  *
- * @copyright  Nils Heinold 2012
+ * @copyright  Nils Heinold 2013
  * @author     Nils Heinold
- * @package    nlsh_guestbook
+ * @package    nlshGuestbook
  * @link       http://github.com/nlsh/nlsh_guestbook
  * @license    LGPL
  */
@@ -53,7 +53,15 @@ class HookNlshAddComment extends \Backend
 
 
     /**
-     * Neueingetragenen Eintrag bearbeiten und speichern
+     * DB- Eintrag des Gästebuch- Modules
+     *
+     * den DB- Eintrag des Gästebuchmodules aufnehmen
+     */
+     public $tl_module = false;
+
+
+    /**
+     * Neueingetragenen Eintrag bearbeiten, speichern und Benachrichtigungsmail senden
      *
      * @param int   ID des neu eingetragenen Gästebucheintrages
      * @param array Array mit neuem Gästebucheintrag
@@ -74,11 +82,12 @@ class HookNlshAddComment extends \Backend
                     ->execute($tl_content->module);
         End Step by step */
 
-        $typeModule = $this->Database->prepare("SELECT `type` FROM tl_module WHERE `id` = (SELECT `module` FROM tl_content WHERE `pid` = (SELECT `id` FROM tl_article WHERE `pid` = ? ) AND `type` = 'module')")
+        $this->tl_module = $this->Database->prepare("SELECT * FROM tl_module WHERE `id` = (SELECT `module` FROM tl_content WHERE `pid` = (SELECT `id` FROM tl_article WHERE `pid` = ? ) AND `type` = 'module')")
                     ->execute($arrComment['parent']);
 
+
         // nur wenn Eintrag vom Modul 'nlsh_guestbook'
-        if ( $typeModule->type == 'nlsh_guestbook')
+        if ( $this->tl_module->type == 'nlsh_guestbook')
         {
             // Smilies außerhalb der Extension hinzufügen
             $arrSmilies   = $this->arrSmilies;
@@ -101,6 +110,17 @@ class HookNlshAddComment extends \Backend
             // Datensatz in Datenbank updaten
             $this->Database->prepare("UPDATE `tl_comments` SET `comment` = ? WHERE `id` =?")
                         ->execute($arrComment['comment'], $intId);
+
+            // Benachrichtigungsmail über neuen Eintrag erstellen und senden, wenn gewünscht
+            if ($this->tl_module->com_nlsh_gb_bolMail == true)
+            {
+                $this->import('Email');
+
+                $email = new \email;
+                $email->subject = $GLOBALS['TL_LANG']['nlsh_guestbook']['email_subject'];
+                //$email->text = $arrComment['comment'];
+                $email->sendTo($this->tl_module->com_nlsh_gb_email);
+            }
         };
 
     }

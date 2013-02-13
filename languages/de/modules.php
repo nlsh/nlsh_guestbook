@@ -1,13 +1,13 @@
 <?php
 
 /**
-* This is the language file (de) for tl_modules.
+* This is the language file (de) for modules.
 *
-* @package    nlsh_guestbook
+* @package    nlshGuestbook
 * @author     Nils Heinold
 * @link       http://github.com/nlsh/nlsh_guestbook
 * @license    LGPL
-* @copyright  Nils Heinold 2012
+* @copyright  Nils Heinold 2013
 */
 
 

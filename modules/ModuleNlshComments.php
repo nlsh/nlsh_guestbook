@@ -10,7 +10,7 @@ namespace nlsh\guestbook;
  *
  * @copyright  Nils Heinold 2012
  * @author     Nils Heinold
- * @package    nlsh_guestbook
+ * @package    nlshGuestbook
  * @link       http://github.com/nlsh/nlsh_guestbook
  * @license    LGPL
  */

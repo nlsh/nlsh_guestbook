@@ -5,7 +5,7 @@
 *
 * Copyright (C) 2005-2012 Leo Feyer
 *
-* @package nlsh_guestbook
+* @package nlshGuestbook
 * @author Nils Heinold
 * @link http://github.com/nlsh/nlsh_guestbook
 * @license LGPL
