@@ -35,17 +35,15 @@
 
 
 /**
-* nlsh_guestbook
+* legends
 */
-$GLOBALS['TL_LANG']['nlsh_guestbook']['noentries'] = 'Es sind keine Einträge vorhanden!';
-$GLOBALS['TL_LANG']['nlsh_guestbook']['howManyEntries'] = 'Bisher gibt es %s Einträge.';
-$GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'] = 'Einen neuen Eintrag schreiben';
+$GLOBALS['TL_LANG']['tl_module']['guestbook_legend'] = 'Gästebuch Einstellungen';
 
-$GLOBALS['TL_LANG']['nlsh_guestbook']['insertPicture'] = 'Bild einfügen';
-$GLOBALS['TL_LANG']['nlsh_guestbook']['insertQoute'] = 'Zitat einfügen';
+/**
+ * Fields
+ */
 
-$GLOBALS['TL_LANG']['nlsh_guestbook']['headline'] = 'Überschrift';
-
-$GLOBALS['TL_LANG']['nlsh_guestbook']['email_subject'] = 'Sie haben einen neuen Eintrag in Ihrem Gästebuch';
-
+$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_template']       = array('Gästebuchtemplate', 'Hier können Sie das Gästebuchtemplate auswählen.');
+$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_bolMail']        = array('Neuen Eintrag melden', 'Einen neuen Eintrag per E-Mail melden.');
+$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_email']          = array('E-Mail-Adresse', 'E-Mail-Adresse, an die der Eintrag gemeldet werden soll.');
 ?>

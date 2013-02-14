@@ -48,7 +48,7 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('tl_NlshM
 $GLOBALS['TL_DCA']['tl_module']['palettes']['nlsh_guestbook'] =     '{title_legend},
                                                                         name,headline,type;
                                                                     {comment_legend},
-                                                                        com_order,perPage,com_moderate,com_bbcode,com_protected,com_requireLogin,com_disableCaptcha;
+                                                                        com_order,perPage,com_moderate,com_bbcode,com_protected,com_requireLogin,com_disableCaptcha,com_nlsh_gb_bolMail;;
                                                                     {template_legend:hide},
                                                                         com_nlsh_gb_template;
                                                                     {protected_legend:hide},
@@ -58,11 +58,40 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['nlsh_guestbook'] =     '{title_lege
 
 
  /**
+ * Add subpalettes to tl_module
+ */
+ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['com_nlsh_gb_bolMail'] = 'com_nlsh_gb_email';
+
+
+ /**
+ * Add __selector__ to tl_module
+ */
+ $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'com_nlsh_gb_bolMail';
+
+
+ /**
  * Add Fields to tl_module
  */
+$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_bolMail'] = array
+(
+                    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_bolMail'],
+                    'exclude'                 => true,
+                    'inputType'               => 'checkbox',
+                    'eval'                    => array('tl_class'=>'w50','submitOnChange'=>true)
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_email'] = array
+(
+                    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_email'],
+                    'exclude'                 => true,
+                    'search'                  => true,
+                    'inputType'               => 'text',
+                    'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true, 'tl_class'=>'w50')
+);
+
 $GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_template'] = array
 (
-                    'label'                   => &$GLOBALS['TL_LANG']['tl_content']['com_nlsh_gb_template'],
+                    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_template'],
                     'default'                 => 'com_default',
                     'exclude'                 => true,
                     'inputType'               => 'select',

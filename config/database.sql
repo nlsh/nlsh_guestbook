@@ -13,4 +13,6 @@
 
 CREATE TABLE `tl_module` (
   `com_nlsh_gb_template` varchar(32) NOT NULL default ''
+  `com_nlsh_gb_bolMail` char(1) NOT NULL default ''
+  `com_nlsh_gb_email` varchar(255) NOT NULL default ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

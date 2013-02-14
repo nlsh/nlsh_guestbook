@@ -66,6 +66,14 @@ class HookNlshAddComment extends Backend
 
 
     /**
+     * DB- Eintrag des Gästebuch- Modules
+     *
+     * den DB- Eintrag des Gästebuchmodules aufnehmen
+     */
+     public $tl_module = false;
+
+
+    /**
      * Neueingetragenen Eintrag bearbeiten
      * @param int ID des neu eingetragenen Gästebucheintrages
      * @param array Array des Gästebucheintrages
@@ -86,11 +94,11 @@ class HookNlshAddComment extends Backend
                     ->execute($tl_content->module);
         End Step by step */
 
-        $typeModule = $this->Database->prepare("SELECT `type` FROM tl_module WHERE `id` = (SELECT `module` FROM tl_content WHERE `pid` = (SELECT `id` FROM tl_article WHERE `pid` = ? ) AND `type` = 'module')")
+        $this->tl_module = $this->Database->prepare("SELECT * FROM tl_module WHERE `id` = (SELECT `module` FROM tl_content WHERE `pid` = (SELECT `id` FROM tl_article WHERE `pid` = ? ) AND `type` = 'module')")
                     ->execute($arrComment['parent']);
 
         // nur wenn Eintrag vom Modul 'nlsh_guestbook'
-        if ( $typeModule->type == 'nlsh_guestbook')
+        if ( $this->tl_module->type == 'nlsh_guestbook')
         {
             // Smilies außerhalb der Extension hinzufügen
             $arrSmilies = $this->arrSmilies;
@@ -113,6 +121,18 @@ class HookNlshAddComment extends Backend
             // Datensatz in Datenbank updaten
             $this->Database->prepare("UPDATE `tl_comments` SET `comment` = ? WHERE `id` =?")
                         ->execute($arrComment['comment'], $intId);
+            // Benachrichtigungs- Mail über neuen Eintrag erstellen und senden, wenn gewünscht
+            if ($this->tl_module->com_nlsh_gb_bolMail == true)
+            {
+                $this->import('Email');
+
+                $email = new email;
+                $email->subject = $GLOBALS['TL_LANG']['nlsh_guestbook']['email_subject'];
+                $email->html    = str_replace('[h]', '<h1>', $arrComment['comment']);
+                $email->html    = str_replace('[/h]', '</h1>',$email->html);
+
+                $email->sendTo($this->tl_module->com_nlsh_gb_email);
+            }
         };
 
     }
