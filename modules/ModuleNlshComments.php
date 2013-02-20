@@ -194,7 +194,7 @@ class ModuleNlshComments extends \ModuleComments
         {
             $start                = strpos($strFromInitialTemplate, '<div class="pagination');
             $end                  = strpos($strFromInitialTemplate, '</ul>') + 5;
-            $return['pagination'] = "\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n\n </div>\n<!-- indexer::continue -->\n";
+            $return['pagination'] = "\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n\n</div>\n<!-- indexer::continue -->\n";
         }
 
         // Alle Gästebucheinträge holen zum Nummerieren der Einträge benötigt

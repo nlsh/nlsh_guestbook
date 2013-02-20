@@ -130,7 +130,7 @@ class HookNlshAddComment extends \Backend
 
     /**
      * Kontrolliert den String auf unerlaubte Eingaben.
-     * !kopiert aus dem Core von Contao!
+     * kopiert aus dem Core von Contao!
      *
      * @param  string  zu kontrollierender String
      * @return string  bereinigter String
