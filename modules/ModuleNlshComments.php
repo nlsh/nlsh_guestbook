@@ -150,7 +150,7 @@ class ModuleNlshComments extends \ModuleComments
         // Formulareingabe extrahieren
         $start = strpos($strFromInitialTemplate, '<form ');
         $end   = strpos($strFromInitialTemplate, '</form>') + 7;
-        $form  = "\n<div class=\"form\">\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n</div>\n<!-- indexer::continue -->\n";
+        $form  = "<div class=\"form\">\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n</div>\n<!-- indexer::continue -->\n";
 
         // Wert von self::GET_INPUT_GBENTRIE auf false setzen, damit nach Eingabe eines Eintrages das Gästebuch wieder angezeigt wird
         // siehe #3
@@ -165,12 +165,12 @@ class ModuleNlshComments extends \ModuleComments
             $form = str_replace('<div class="submit_container">', $bbCode . $smilies . "\n" . '<div class="submit_container">', $form);
         }
 
-        $headline = "<div class =\"widget\">\n"
-                    . "  <input id=\"ctrl_headline\" class=\"text\" type=\"text\" maxlength=\"255\" value=\"\" name=\"headline\" />"
+        $headline = " <input id=\"ctrl_headline\" class=\"text\" type=\"text\" maxlength=\"255\" value=\"\" name=\"headline\" />"
                     . " <label for=\"ctrl_headline\"><span class=\"headline\">" . $GLOBALS['TL_LANG']['nlsh_guestbook']['headline'] . "</span></label>"
-                    . "\n</div>\n";
+                    . "\n</div>\n"
+                    . "<div class =\"widget\">\n ";
 
-        $startHeadline = strpos($form, '<textarea') - 23;
+        $startHeadline = strpos($form, '<textarea');
 
         $form = substr($form, 0, $startHeadline) . $headline  . substr($form, $startHeadline);
 
