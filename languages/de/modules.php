@@ -19,10 +19,5 @@
 /**
 * Front end modules
 */
-$GLOBALS['TL_LANG']['FMD']['nlsh_guestbook'] = array('Gästebuch','Fügt das Gästebuch ein.');
-
-
-/**
-* Back end modules
-*/
-$GLOBALS['TL_LANG']['MOD']['nlsh_guestbook'] = array('Gästebuch','Fügt das Gästebuch ein.');
+$GLOBALS['TL_LANG']['FMD']['nlsh_guestbook'][0] = 'Gästebuch';
+$GLOBALS['TL_LANG']['FMD']['nlsh_guestbook'][1] = 'Fügt das Gästebuch ein.';
