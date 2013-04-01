@@ -94,6 +94,15 @@ class ModuleNlshComments extends ModuleComments
         $this->strTemplate = $this->com_nlsh_gb_template;
         $this->Template    = new FrontendTemplate($this->strTemplate);
 
+        // Template mit Standardwerte vorblegen
+        $this->Template->headline = $this->headline;
+        $this->Template->hl = $this->hl;
+        if ($this->cssID[0] == true) $this->Template->cssID = ' id ="' . $this->cssID[0] . '"';
+        if ($this->cssID[1] == true) $this->Template->class = 'mod_nlsh_guestbook ' . $this->cssID[1];
+        $this->Template->style = false;
+        $this->Template->style = ($this->space[0] == true) ? 'margin-top:' . $this->space[0] . 'px;' : '';
+        $this->Template->style .= ($this->space[1] == true) ? 'margin-bottom:' . $this->space[1] . 'px;' : '';
+
         // String zerlegen und Übergabe in das Template
         $templateVars = $this->_getTemplateVars($strOutput);
 
@@ -112,16 +121,8 @@ class ModuleNlshComments extends ModuleComments
         // Html- Link für neuen Eintrag erzeugen
         $this->Template->htmlLinkNewEntrie = $this->getHtmlLinkForNewNlshGbEntrie();
 
-        // $return vorbereiten
-        $cssClass = ($this->cssID[1] == true) ? $this->cssID[1] . " " : '';
-        $cssId    = ($this->cssID[0] == true) ? 'id="' . $this->cssID[0] . '" ' : '';
-
-        $cssStyleMarginTop    = ($this->space[0] == true) ? 'margin-top:' . $this->space[0] . 'px;' : '';
-        $cssStyleMarginBottom = ($this->space[1] == true) ? 'margin-bottom:' . $this->space[1] . 'px;' : '';
-        $cssStyle             = ' style="' . $cssStyleMarginTop . $cssStyleMarginBottom . '"';
-
         //Templateausgabe
-        return "\n<div " . $cssId . 'class="mod_nlsh_guestbook ' . $cssClass . 'block"' . $cssStyle . ">\n\n" . $this->Template->parse() . "</div>\n";
+        return $this->Template->parse();
     }
 
 
