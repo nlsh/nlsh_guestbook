@@ -35,7 +35,7 @@
 }
 
 .mod_nlsh_guestbook div{
-    margin: 10px 10px 20px !important;
+    margin: 10px 10px 20px;
 }
 
 .mod_nlsh_guestbook .info {
@@ -44,7 +44,7 @@
 
 .mod_nlsh_guestbook .headlinecomment{
     font-weight: bold;
-    margin-left: 0 !important;
+    margin-left: 0;
 }
 
 .mod_nlsh_guestbook .nr {
