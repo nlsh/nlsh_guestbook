@@ -23,7 +23,61 @@ foreach($GLOBALS['TL_DCA']['tl_comments']['palettes'] as $k => $v)
 }
 
 $GLOBALS['TL_DCA']['tl_comments']['fields']['date']['inputType'] =  'text';
+$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['save_callback'] = array
+                                                                       (
+                                                                           array ('tl_commentNlshGuestbook', 'saveTime')
+                                                                       );
 $GLOBALS['TL_DCA']['tl_comments']['fields']['date']['eval']      =  array
                                                                     (
                                                                         'rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(),'tl_class'=>'w50 wizard'
                                                                     );
+
+
+/**
+* class tl_comment
+*
+* @copyright Nils Heinold (c) 2013
+* @author    Nils Heinold
+* @package   nlshGuestbook
+* @link      https://github.com/nlsh/nlsh_guestbook
+* @license   LGPL
+*/
+class tl_commentNlshGuestbook extends \Backend
+{
+
+
+    /**
+* Den Backenduser importieren
+*
+* Contao- Core Funktion
+*/
+    public function __construct()
+    {
+        parent::__construct();
+        $this->import('BackendUser', 'User');
+    }
+
+
+    /**
+    * Uhrzeit des Eintrages eintragen
+    *
+    * Durch das getDatePicker- Widget wird nur das Datum weitergegeben
+    *
+    * die Uhrzeit wird gelöscht, darum hier die Uhrzeit hinzufügen
+    *
+    * save_callback des Feldes date
+    *
+    * @param   int gewähltes Datum
+    * @param   \DataContainer DataContainer- Objekt von Contao
+    * @return  string gewähltes Datum mit Uhrzeit
+    */
+    public function saveTime($Field, DataContainer $dc)
+    {
+        $oldTstamp = $this->Database->prepare("SELECT `date` FROM `tl_comments` WHERE `id` =?")
+                                ->execute($dc->id);
+
+        $timeCompled = $Field + (date('G', $oldTstamp->date) * 60 * 60) + (date('i', $oldTstamp->date) * 60) + (date('s', $oldTstamp->date));
+
+        return $timeCompled;
+    }
+}
