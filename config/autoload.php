@@ -3,10 +3,10 @@
 /**
  * Contao Open Source CMS
  * 
- * Copyright (C) 2005-2012 Leo Feyer
+ * Copyright (C) 2005-2013 Leo Feyer
  * 
  * @package nlshGuestbook
- * @link    http://contao.org
+ * @link    https://contao.org
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
@@ -25,11 +25,14 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
+	// Classes
+	'nlsh\guestbook\tl_commentNlshGuestbook' => 'system/modules/nlsh_guestbook/classes/tl_commentNlshGuestbook.php',
+
 	// Hooks
-	'nlsh\guestbook\HookNlshAddComment' => 'system/modules/nlsh_guestbook/hooks/HookNlshAddComment.php',
+	'nlsh\guestbook\HookNlshAddComment'      => 'system/modules/nlsh_guestbook/hooks/HookNlshAddComment.php',
 
 	// Modules
-	'nlsh\guestbook\ModuleNlshComments' => 'system/modules/nlsh_guestbook/modules/ModuleNlshComments.php',
+	'nlsh\guestbook\ModuleNlshComments'      => 'system/modules/nlsh_guestbook/modules/ModuleNlshComments.php',
 ));
 
 

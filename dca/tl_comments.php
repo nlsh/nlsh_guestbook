@@ -22,8 +22,12 @@ foreach($GLOBALS['TL_DCA']['tl_comments']['palettes'] as $k => $v)
                                     }
 }
 
-$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['inputType'] =  'text';
-$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['eval']      =  array
-                                                                    (
-                                                                        'rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(),'tl_class'=>'w50 wizard'
-                                                                    );
+$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['inputType']     =  'text';
+$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['save_callback'] = array
+                                                                       (
+                                                                           array ('\nlsh\guestbook\tl_commentNlshGuestbook', 'saveTime')
+                                                                       );
+$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['eval']          = array
+                                                                       (
+                                                                           'rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(),'tl_class'=>'w50 wizard'
+                                                                       );
