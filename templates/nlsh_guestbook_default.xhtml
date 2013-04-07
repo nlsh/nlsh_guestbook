@@ -27,7 +27,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_guestbook'] = 'system/modules/nlsh_guestbook/htm
     <?php endif; ?>
 
     <?php for ($i = 0; $i < $this->countComments; $i++): ?>
-    <div class="<?php echo $this->gbEntries[$i]['class']; ?>" >
+    <div class="fullcomment <?php echo $this->gbEntries[$i]['class']; ?>" >
         <?php if($this->gbEntries[$i]['headlineComment']) : ?>
             <div class="headlinecomment" > <span class ="nr"><?php echo $this->gbEntries[$i]['nr']; ?> </span> <?php echo $this->gbEntries[$i]['headlineComment']; ?></div>
         <?php endif; ?>
