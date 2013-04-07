@@ -1,3 +1,7 @@
+.mod_nlsh_guestbook {
+
+}
+
 .mod_nlsh_guestbook h1, h2, h3, h4, h5, h6{
     color: #FFA449;
     text-align: center;
@@ -34,8 +38,17 @@
     background-color: #EFEFEF;
 }
 
-.mod_nlsh_guestbook div{
+.mod_nlsh_guestbook .widget,
+.mod_nlsh_guestbook .bbcode,
+.mod_nlsh_guestbook .smilies,
+.mod_nlsh_guestbook .countcommentstext,
+.mod_nlsh_guestbook .pagination,
+.mod_nlsh_guestbook .htmllinknewentrie,
+.mod_nlsh_guestbook .fullcomment,
+.mod_nlsh_guestbook .comment,
+.mod_nlsh_guestbook .headlinecomment {
     margin: 10px 10px 20px;
+    padding-left: 10px;
 }
 
 .mod_nlsh_guestbook .info {
@@ -45,6 +58,7 @@
 .mod_nlsh_guestbook .headlinecomment{
     font-weight: bold;
     margin-left: 0;
+    padding-left: 0;
 }
 
 .mod_nlsh_guestbook .nr {

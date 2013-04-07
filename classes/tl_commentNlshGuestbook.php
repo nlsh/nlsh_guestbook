@@ -39,6 +39,28 @@ class tl_commentNlshGuestbook extends \Backend
 
 
     /**
+    * Datum ins engl. Format konvertieren
+    *
+    * Das getDatePicker- Widget kann nichts mit dem dt.Datumsformat anfangen
+    *
+    * gibt zwar ein paar Tickets, aber sicher ist sicher
+    *
+    * load_callback des Feldes date
+    *
+    * @param   int gespeichertes Datum
+    * @param   \DataContainer DataContainer- Objekt von Contao
+    * @return  string Datum im engl. Format Y-m-d
+    */
+    public function dateEnglishFormat($Field, \DataContainer $dc)
+    {
+
+ //       $GLOBALS['TL_CONFIG']['dateFormat'] = 'Y-m-d';
+
+        return $Field;
+    }
+
+
+    /**
     * Uhrzeit des Eintrages eintragen
     *
     * Durch das getDatePicker- Widget wird nur das Datum weitergegeben

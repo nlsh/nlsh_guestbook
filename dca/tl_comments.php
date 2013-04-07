@@ -23,6 +23,10 @@ foreach($GLOBALS['TL_DCA']['tl_comments']['palettes'] as $k => $v)
 }
 
 $GLOBALS['TL_DCA']['tl_comments']['fields']['date']['inputType']     =  'text';
+$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['load_callback'] = array
+                                                                       (
+                                                                           array ('\nlsh\guestbook\tl_commentNlshGuestbook', 'dateEnglishFormat')
+                                                                       );
 $GLOBALS['TL_DCA']['tl_comments']['fields']['date']['save_callback'] = array
                                                                        (
                                                                            array ('\nlsh\guestbook\tl_commentNlshGuestbook', 'saveTime')
