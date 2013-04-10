@@ -109,8 +109,12 @@ class ModuleNlshComments extends \ModuleComments
         // Template mit Standardwerte vorblegen
         $this->Template->headline                              = $this->headline;
         $this->Template->hl                                    = $this->hl;
+
         if ($this->cssID[0] == true) $this->Template->cssID    = ' id ="' . $this->cssID[0] . '"';
-        if ($this->cssID[1] == true) $this->Template->class    = 'mod_nlsh_guestbook ' . $this->cssID[1];
+
+        $this->Template->class                                 = 'mod_nlsh_guestbook';
+        if ($this->cssID[1] == true) $this->Template->class    .= ' ' . $this->cssID[1];
+
         $this->Template->style = false;
         $this->Template->style  = ($this->space[0] == true) ? 'margin-top:' . $this->space[0] . 'px;' : '';
         $this->Template->style .= ($this->space[1] == true) ? 'margin-bottom:' . $this->space[1] . 'px;' : '';
