@@ -2,11 +2,6 @@
 
 }
 
-.mod_nlsh_guestbook h1, h2, h3, h4, h5, h6{
-    color: #FFA449;
-    text-align: center;
-}
-
 .mod_nlsh_guestbook .countcommentstext{
     text-align: center;
 }
@@ -46,7 +41,7 @@
 .mod_nlsh_guestbook .htmllinknewentrie,
 .mod_nlsh_guestbook .fullcomment,
 .mod_nlsh_guestbook .comment,
-.mod_nlsh_guestbook .headlinecomment{
+.mod_nlsh_guestbook .headlinecomment {
     margin: 10px 10px 20px;
     padding-left: 10px;
 }
@@ -58,7 +53,7 @@
 .mod_nlsh_guestbook .headlinecomment{
     font-weight: bold;
     margin-left: 0;
-    padding-left: 0; 
+    padding-left: 0;
 }
 
 .mod_nlsh_guestbook .nr {
