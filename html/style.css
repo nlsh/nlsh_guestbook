@@ -70,3 +70,11 @@
      font-weight: bold;
      margin-bottom: 0.5em;
 }
+
+.mod_nlsh_guestbook .submit_container{
+    display: inline;
+}
+
+.mod_nlsh_guestbook .cancel_submit{
+
+}
