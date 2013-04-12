@@ -153,10 +153,28 @@ class ModuleNlshComments extends \ModuleComments
     {
         global $objPage;
 
+        // zum Abbruch der Eingabe, Button erzeugen
+        $this->cancelButton        = new \FrontendTemplate('nlsh_cancelButton');
+        $this->cancelButton->value = $GLOBALS['TL_LANG']['nlsh_guestbook']['cancelButton'];
+        $this->cancelButton        = $this->cancelButton->parse();
+
         // Formulareingabe extrahieren
         $start = strpos($strFromInitialTemplate, '<form ');
-        $end   = strpos($strFromInitialTemplate, '</form>') + 7;
-        $form  = "<div class=\"form\">\n<!-- indexer::stop -->\n" . substr($strFromInitialTemplate, $start, $end - $start) . "\n</div>\n<!-- indexer::continue -->\n";
+        $end   = strpos($strFromInitialTemplate, '</form>');
+
+        // Formular wieder zusammensetzen
+        $form  = "<!-- indexer::stop -->\n<div class=\"form\">\n";
+        $form .= substr($strFromInitialTemplate, $start, $end - $start);
+
+        // letztes <\div> entfernen
+        $form  = substr($form, 0, strripos($form, '</div>'));
+
+        // Cancel- Button einfügen
+        $form .= $this->cancelButton;
+
+        // und schließen
+        $form .= "\n</div>\n</form>\n</div>\n<!-- indexer::continue -->\n";
+
 
         // Wert von self::GET_INPUT_GBENTRIE auf false setzen, damit nach Eingabe eines Eintrages das Gästebuch wieder angezeigt wird
         // siehe #3
