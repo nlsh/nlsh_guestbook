@@ -41,6 +41,7 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
+	'nlsh_cancelButton'      => 'system/modules/nlsh_guestbook/templates',
 	'nlsh_gb_initial'        => 'system/modules/nlsh_guestbook/templates',
 	'nlsh_guestbook_default' => 'system/modules/nlsh_guestbook/templates',
 ));

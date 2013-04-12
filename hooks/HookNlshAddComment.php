@@ -85,7 +85,6 @@ class HookNlshAddComment extends \Backend
         $this->tl_module = $this->Database->prepare("SELECT * FROM tl_module WHERE `id` = (SELECT `module` FROM tl_content WHERE `pid` = (SELECT `id` FROM tl_article WHERE `pid` = ? ) AND `type` = 'module')")
                     ->execute($arrComment['parent']);
 
-
         // nur wenn Eintrag vom Modul 'nlsh_guestbook'
         if ( $this->tl_module->type == 'nlsh_guestbook')
         {
