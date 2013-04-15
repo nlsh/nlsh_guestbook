@@ -22,5 +22,5 @@ $arrTemplateVars = array
         'rby'               => $this->rby,
 );
 
-echo '^' . serialize($arrTemplateVars) . '^';
+echo serialize($arrTemplateVars);
 ?>

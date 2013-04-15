@@ -1,3 +1,4 @@
+
 <div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 <?php if ($this->headline): ?>
 
@@ -7,52 +8,71 @@
 <?php
 $GLOBALS['TL_CSS']['nlsh_guestbook'] = 'system/modules/nlsh_guestbook/html/style.css';
 $GLOBALS['TL_JAVASCRIPT']['nlsh_guestbook'] = 'system/modules/nlsh_guestbook/html/insert.js'; ?>
-<?php if ($this->countCommentsText): ?>
- <div class="countcommentstext"><?php echo $this->countCommentsText; ?></div>
-<?php endif; ?>
-<?php if ( ($this->htmlLinkNewEntrie) && ($this->countComments == false) ): ?>
-<div class="htmllinknewentrie"><?php echo $this->htmlLinkNewEntrie; ?> </div>
-<?php endif; ?>
-<?php if( ($this->countComments) && ($this->inputNewEntrie == false) ): ?>
-<?php if ($this->pagination): ?>
-<?php echo $this->pagination; ?>
-<?php endif; ?>
 
-<?php if ($this->htmlLinkNewEntrie): ?>
+<div class="countcommentstext">
+ <?php echo $this->howManyEntriesText; ?>
+
+</div>
+
+<?php if ( ($this->inputNewEntrie == false) &&  ($this->countComments == false)): ?>
 <div class="htmllinknewentrie">
- <?php echo $this->htmlLinkNewEntrie."\n"; ?>
+ <?php echo $this->htmlLinkNewEntrie; ?>
+
 </div>
 <?php endif; ?>
+
+<?php if( ($this->countComments) && ($this->inputNewEntrie == false) ): ?>
+<div class="htmllinknewentrie">
+ <?php echo $this->htmlLinkNewEntrie; ?>
+
+</div>
+
+<?php echo $this->pagination; ?>
 
 <?php for ($i = 0; $i < $this->countComments; $i++): ?>
-<div class="fullcomment <?php echo $this->gbEntries[$i]['class']; ?>" >
-<?php if($this->gbEntries[$i]['headlineComment']) : ?>
- <div class="headlinecomment" >
-  <span class ="nr"><?php echo $this->gbEntries[$i]['nr']; ?></span> <?php echo $this->gbEntries[$i]['headlineComment']."\n"; ?>
- </div>
+<div class="fullcomment <?php echo $this->comments[$i]['class']; ?>" >
+<?php if($this->comments[$i]['headlineComment']) : ?>
+<div class="headlinecomment" >
+ <span class ="nr"><?php echo $this->comments[$i]['nr']; ?></span> <?php echo $this->comments[$i]['headlineComment']."\n"; ?>
+
+</div>
 <?php endif; ?>
- <p class="info"><?php echo $this->gbEntries[$i]['by']; ?> <?php if ($this->gbEntries[$i]['website']): ?><a href="<?php echo $this->gbEntries[$i]['website']; ?>" rel="nofollow"<?php echo LINK_NEW_WINDOW; ?>><?php endif; echo $this->gbEntries[$i]['name']; ?><?php if ($this->gbEntries[$i]['website']): ?></a><?php endif; ?><span class="date"> | <?php echo $this->gbEntries[$i]['datim']; ?></span></p>
- <div class="comment">
-  <?php echo $this->gbEntries[$i]['comment']."\n"; ?>
- </div>
-<?php if ($this->gbEntries[$i]['addReply']): ?>
- <div class="reply">
- <p class="info"><?php echo $this->gbEntries[$i]['rby']; ?> <?php echo $this->gbEntries[$i]['authorName']; ?></p>
- <div class="comment">
-  <?php echo $this->gbEntries[$i]['reply']."\n"; ?>
- </div>
- </div>
+
+<p class="info"><?php echo $this->comments[$i]['by']; ?> <?php if ($this->comments[$i]['website']): ?><a href="<?php echo $this->comments[$i]['website']; ?>" rel="nofollow"<?php echo LINK_NEW_WINDOW; ?>><?php endif; echo $this->comments[$i]['name']; ?><?php if ($this->comments[$i]['website']): ?></a><?php endif; ?><span class="date"> | <?php echo $this->comments[$i]['datim']; ?></span></p>
+<div class="comment">
+ <?php echo $this->comments[$i]['comment']; ?>
+
+</div>
+
+<?php if ($this->comments[$i]['addReply']): ?>
+<div class="reply">
+ <p class="info"><?php echo $this->comments[$i]['rby']; ?> <?php echo $this->comments[$i]['authorName']; ?></p>
+
+<div class="comment">
+ <?php echo $this->comments[$i]['reply']; ?>
+
+</div>
+
+</div>
 <?php endif; ?>
+
 </div>
 <?php endfor; ?>
- <?php if ($this->newNlshGbEntrie): ?>
-  <div class="newnlshgbentrie"><?php echo $this->newNlshGbEntrie; ?> </div>
- <?php endif; ?>
- <?php if ($this->pagination): ?>
-  <?php echo $this->pagination; ?>
+
+<?php if ($this->countComments == true ): ?>
+<div class="htmllinknewentrie">
+ <?php echo $this->htmlLinkNewEntrie; ?>
+
+</div>
+<?php endif; ?>
+
+<?php if ($this->pagination): ?>
+<?php echo $this->pagination; ?>
+
 <?php endif; ?>
 
 <?php endif; ?>
+
 <?php if( $this->inputNewEntrie == true ): ?>
  <?php echo $this->form; ?>
 <?php endif; ?>
