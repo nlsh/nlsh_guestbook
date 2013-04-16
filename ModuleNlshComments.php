@@ -111,6 +111,10 @@ class ModuleNlshComments extends \Module
         return $objTemplate->parse();
     }
 
+        // Template wechseln
+        $this->strTemplate = $this->com_nlsh_gb_template;
+        $this->Template = new \FrontendTemplate($this->strTemplate);
+
     return parent::generate();
     }
 
