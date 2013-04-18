@@ -195,6 +195,7 @@ class ModuleNlshComments extends \Module
         $this->Template->countComments = count($this->Template->comments);
 
         // Wenn Link für ein neuen Gästebucheintrag benutzt wurde
+        // Wird im Template abgefragt und benötigt!
         if ($this->Input->get(self::GET_INPUT_GBENTRIE) === 'true')
         {
             $this->Template->inputNewEntrie = true;
@@ -215,7 +216,8 @@ class ModuleNlshComments extends \Module
         $this->form->requireLogin  = $this->Template->requireLogin;
         $this->form->confirm       = $this->Template->confirm;
         $this->form->allowComments = $this->Template->allowComments;
-        $this->form->action        = str_replace(self::GET_INPUT_GBENTRIE . '=true', self::GET_INPUT_GBENTRIE . '=false', $this->Template->action);
+        $this->form->action        = str_replace( '?' . self::GET_INPUT_GBENTRIE . '=true', '', $this->Template->action);
+        $this->form->action        = str_replace( '&amp;' . self::GET_INPUT_GBENTRIE . '=true', '', $this->form->action);
         $this->form->formId        = $this->Template->formId;
         $this->form->bbCode        = $bbCode;
         $this->form->smilies       = $smilies;
