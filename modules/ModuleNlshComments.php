@@ -217,12 +217,10 @@ class ModuleNlshComments extends \Module
      */
      public function getHtmlDivSelectBbcOrSmilies ($strClass, $strCssIdForm, $arrArray)
      {
-        $return  = '<div class="' . $strClass . '">';
-        $return .= $this->getHtmlLinkInsertWithJava($strCssIdForm, $arrArray);
-        $return .= "</div>\n";
-
-        return $return;
-
+        return sprintf( '<div class="%s">%s' . "\n</div>\n",
+                $strClass,
+                $this->getHtmlLinkInsertWithJava($strCssIdForm, $arrArray)
+        );
      }
 
 
@@ -240,7 +238,14 @@ class ModuleNlshComments extends \Module
 
         for ($i = 0; $i < count($arrArray); $i++)
         {
-            $strHtml .= "\n<a href=\"javascript:insert('$strCssFormId', ' " . $arrArray[$i][0] . " ', ' " . $arrArray[$i][1] . " ')\"><img src=\"" . $strUrl . $arrArray[$i][2] . "\" alt=\"" . $arrArray[$i][0] . "\" title=\"" . $arrArray[$i][3] . "\" /></a>";
+            $strHtml .= sprintf("\n <a href=\"javascript:insert('%s', '%s', '%s')\"><img src=\"%s\" alt=\"%s\" title=\"%s\" /></a>",
+                         $strCssFormId,
+                         $arrArray[$i][0],
+                         $arrArray[$i][1],
+                         $strUrl . $arrArray[$i][2],
+                         $arrArray[$i][0],
+                         $arrArray[$i][3]
+            );
         }
 
         return $strHtml;
@@ -254,14 +259,16 @@ class ModuleNlshComments extends \Module
      */
     public function getHtmlLinkForNewNlshGbEntrie()
     {
-
         $strOutput = $this->Environment->request;
 
         // wichtig !! Kontrolle auf zusätzlichen Request
         ($strOutput{0} === '?') ? $strOutput = $strOutput . '&amp;' : $strOutput = '?';
 
-        $return = '<a class="linknewentrie" title="'. $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'] . '" href="' . $strOutput . self::GET_INPUT_GBENTRIE . '=true">' . $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'] . '</a>';
-
-        return $return;
+        return sprintf(
+                '<a class="linknewentrie" title="%s" href="%s">%s</a>',
+                $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'],
+                $strOutput . self::GET_INPUT_GBENTRIE . '=true',
+                $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries']
+        );
     }
 }
