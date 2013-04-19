@@ -277,18 +277,11 @@ class ModuleNlshComments extends \Module
      */
     public function getHtmlLinkForNewNlshGbEntrie()
     {
+        $strOutput = $this->Environment->request;
 
-        $strOutput = "{{env::request}}";
+        // wichtig !! Kontrolle auf zusätzlichen Request
+        ($strOutput{0} === '?') ? $strOutput = $strOutput . '&amp;' : $strOutput = '?';
 
-        // wichtig !! Kontrolle auf zusätzliche $_GET
-        if ( (strpos($this->Environment->request, "?") === false) || $_GET == false)
-        {
-            $strOutput .= '?';
-        }
-        else
-        {
-            $strOutput .= '&amp;';
-        }
         $return = '<a class="linknewentrie" title="'. $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'] . '" href="' . $strOutput . self::GET_INPUT_GBENTRIE . '=true">' . $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'] . '</a>';
 
         return $return;

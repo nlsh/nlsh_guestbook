@@ -121,6 +121,7 @@ class HookNlshAddComment extends Backend
             // Datensatz in Datenbank updaten
             $this->Database->prepare("UPDATE `tl_comments` SET `comment` = ? WHERE `id` =?")
                         ->execute($arrComment['comment'], $intId);
+
             // Benachrichtigungs- Mail über neuen Eintrag erstellen und senden, wenn gewünscht
             if ($this->tl_module->com_nlsh_gb_bolMail == true)
             {
