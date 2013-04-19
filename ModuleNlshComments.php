@@ -289,8 +289,9 @@ class ModuleNlshComments extends \Module
         ($strOutput{0} === '?') ? $strOutput = $strOutput . '&amp;' : $strOutput = '?';
 
         return sprintf(
-                '<a class="linknewentrie" title="%s" href="%s">%s</a>',
+                '<a class="linknewentrie" title="%s" href="%s%s">%s</a>',
                 $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'],
+                $this->Template->action,
                 $strOutput . self::GET_INPUT_GBENTRIE . '=true',
                 $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries']
         );
