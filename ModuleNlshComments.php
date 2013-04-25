@@ -216,8 +216,7 @@ class ModuleNlshComments extends \Module
         $this->form->requireLogin  = $this->Template->requireLogin;
         $this->form->confirm       = $this->Template->confirm;
         $this->form->allowComments = $this->Template->allowComments;
-        $this->form->action        = str_replace( '?' . self::GET_INPUT_GBENTRIE . '=true', '', $this->Template->action);
-        $this->form->action        = str_replace( '&amp;' . self::GET_INPUT_GBENTRIE . '=true', '', $this->form->action);
+        $this->form->action        = $this->delGetEntryFromRequest($this->Template->action, self::GET_INPUT_GBENTRIE); 
         $this->form->formId        = $this->Template->formId;
         $this->form->bbCode        = $bbCode;
         $this->form->smilies       = $smilies;
@@ -283,19 +282,45 @@ class ModuleNlshComments extends \Module
      */
     public function getHtmlLinkForNewNlshGbEntrie()
     {
-        $strOutput = $this->Environment->request;
+        global $objPage;
+
+        $strOutput = $this->delGetEntryFromRequest($this->Environment->request, self::GET_INPUT_GBENTRIE);
+
+        if ($strOutput == false)
+        {
+            $strOutput = $this->generateFrontendUrl(array(  'id'       => $objPage->id,
+                                                            'language' => $objPage->language,
+                                                            'alias'    => $objPage->alias ));
+        }
 
         // wichtig !! Kontrolle auf zusätzlichen Request
-        ($strOutput{0} === '?') ? $strOutput = $strOutput . '&amp;' : $strOutput = '?';
+        $strConnector = (strpos($strOutput, '?') !== false) ? '&' : '?';
 
         return sprintf(
-                '<a class="linknewentrie" title="%s" href="%s%s">%s</a>',
+                '<a class="linknewentrie" title="%s" href="%s">%s</a>',
                 $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'],
-                $this->Template->action,
-                $strOutput . self::GET_INPUT_GBENTRIE . '=true',
+                $strOutput . $strConnector . self::GET_INPUT_GBENTRIE . '=true',
                 $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries']
         );
     }
+
+
+    /**
+     * bestimmten Get- Eintrag aus Request- String löschen
+     *
+     * @param  string Request- String
+     * @param  string zu löschender Eintrag
+     * @return string bereinigter Request- String
+     */
+     public function delGetEntryFromRequest($request, $getEntry)
+     {
+        if (preg_match('/(&(amp;)?|\?)'. $getEntry . '=[^&]+/', $request))
+        {
+            return preg_replace('/(&(amp;)?|\?)' . $getEntry . '=[^&]+/', '', $request);
+        }
+
+        return $request;
+     }
 }
 
 ?>
