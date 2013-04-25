@@ -6,7 +6,7 @@ namespace nlsh\guestbook;
 
 
 /**
- * Übergibt die vom Core- Modul Comments über das 'Initial'- Template erzeugten Daten an das Template.
+ * Kommentare vom Core- Modul Comments übernehmen
  *
  * @copyright  Nils Heinold 2013
  * @author     Nils Heinold
@@ -44,8 +44,7 @@ class ModuleNlshComments extends \Module
      *
      * Definition der Smilies in einem Array
      */
-    protected $arrSmilies = array
-    (
+    protected $arrSmilies = array(
         array ('[smile]:D[/smile]',        '', 'big.gif'),
         array ('[smile]:)[/smile]',        '', 'smile.gif'),
         array ('[smile]:([/smile]',        '', 'sad.gif'),
@@ -76,23 +75,28 @@ class ModuleNlshComments extends \Module
     */
     public function generate()
     {
+    // Wenn im Backend
     if (TL_MODE == 'BE')
     {
+        // Neues Template
         $objTemplate = new \BackendTemplate('be_wildcard');
 
+        // Befüllen
         $objTemplate->wildcard = '### nlsh_guestbook ###';
-        $objTemplate->title = $this->headline;
-        $objTemplate->id = $this->id;
-        $objTemplate->link = $this->name;
-        $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+        $objTemplate->title    = $this->headline;
+        $objTemplate->id       = $this->id;
+        $objTemplate->link     = $this->name;
+        $objTemplate->href     = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
+        // und Tschüß
         return $objTemplate->parse();
     }
 
-        // Template wechseln
+        // ansonsten Template wechseln
         $this->strTemplate = $this->com_nlsh_gb_template;
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template    = new \FrontendTemplate($this->strTemplate);
 
+    // und Frontend Rendern (jetzt kommt die compile()- Methode
     return parent::generate();
     }
 
@@ -104,104 +108,148 @@ class ModuleNlshComments extends \Module
     {
     global $objPage;
 
-        $this->import('Comments');
-        $objConfig = new \stdClass();
+    $this->import('Comments');
+    $objConfig = new \stdClass();
 
-        $objConfig->perPage        = $this->perPage;
-        $objConfig->order          = $this->com_order;
-        $objConfig->template       = $this->com_template;
-        $objConfig->requireLogin   = $this->com_requireLogin;
-        $objConfig->disableCaptcha = $this->com_disableCaptcha;
-        $objConfig->bbcode         = $this->com_bbcode;
-        $objConfig->moderate       = $this->com_moderate;
+    $objConfig->perPage        = $this->perPage;
+    $objConfig->order          = $this->com_order;
+    $objConfig->template       = $this->com_template;
+    $objConfig->requireLogin   = $this->com_requireLogin;
+    $objConfig->disableCaptcha = $this->com_disableCaptcha;
+    $objConfig->bbcode         = $this->com_bbcode;
+    $objConfig->moderate       = $this->com_moderate;
 
-        $this->Comments->addCommentsToTemplate($this->Template, $objConfig, 'tl_page', $objPage->id, $GLOBALS['TL_ADMIN_EMAIL']);
+    $this->Comments->addCommentsToTemplate(
+                                           $this->Template,
+                                           $objConfig,
+                                           'tl_page',
+                                           $objPage->id,
+                                           $GLOBALS['TL_ADMIN_EMAIL']
+                                          );
 
-        // Sprache nachladen
-        $this->loadLanguageFile('tl_style');
+    // Sprache nachladen
+    $this->loadLanguageFile('tl_style');
 
-        // BBCode definieren
-        $this->arrBbcFormat = array
-        (
-            array ('[b]', '[/b]' , 'text_bold.png', $GLOBALS['TL_LANG']['tl_style']['bold']),
-            array ('[i]','[/i]', 'text_italic.png', $GLOBALS['TL_LANG']['tl_style']['italic']),
-            array ('[u]','[/u]', 'text_underline.png', $GLOBALS['TL_LANG']['tl_style']['underline']),
-            array ('[img]','[/img]', 'picture_link.png', $GLOBALS['TL_LANG']['nlsh_guestbook']['insertPicture']),
-            array ('[quote]','[/quote]', 'comment_add.png', $GLOBALS['TL_LANG']['nlsh_guestbook']['insertQoute']),
-        );
+    // BBCode definieren
+    $this->arrBbcFormat = array(
+        array ('[b]', '[/b]',         'text_bold.png',      $GLOBALS['TL_LANG']['tl_style']['bold']),
+        array ('[i]', '[/i]',         'text_italic.png',    $GLOBALS['TL_LANG']['tl_style']['italic']),
+        array ('[u]', '[/u]',         'text_underline.png', $GLOBALS['TL_LANG']['tl_style']['underline']),
+        array ('[img]', '[/img]',     'picture_link.png',   $GLOBALS['TL_LANG']['nlsh_guestbook']['insertPicture']),
+        array ('[quote]', '[/quote]', 'comment_add.png',    $GLOBALS['TL_LANG']['nlsh_guestbook']['insertQoute']),
+    );
 
-        // Anzahl aller Einträge ermitteln, um Nummer des Eintrages festlegen zu können
-        $arrGbEntries = $this->Database->prepare("SELECT * FROM tl_comments WHERE source=? AND parent=?" . (!BE_USER_LOGGED_IN ? " AND published=1" : "") . " ORDER BY date ASC")
-                    ->execute('tl_page', $objPage->id)
-                    ->fetchAllAssoc();
+    // Anzahl aller Einträge ermitteln, um Nummer des Eintrages festlegen zu können
+    $arrGbEntries = $this->Database
+                         ->prepare(
+                                    "SELECT
+                                            *
+                                    FROM
+                                            tl_comments
+                                    WHERE
+                                            source=?
+                                            AND parent=?" . (!BE_USER_LOGGED_IN ? " AND published=1" : "") . "
+                                    ORDER
+                                            BY date ASC"
+                                    )
+                ->execute('tl_page', $objPage->id)
+                ->fetchAllAssoc();
 
-        // Text für Anzahl der Einträge eintragen
-        $this->Template->howManyEntriesText = sprintf($GLOBALS['TL_LANG']['nlsh_guestbook']['howManyEntries'], count($arrGbEntries));
+    // Text für Anzahl der Einträge eintragen
+    $howManyEntriesText = sprintf(
+                                    $GLOBALS['TL_LANG']['nlsh_guestbook']['howManyEntries'],
+                                    count($arrGbEntries)
+                                  );
 
-        // die vom nlsh_gb_initial- Template übergebenen Comments- Daten wieder in ein Array umwandeln
-        // und die Nummer hinzufügen
-        foreach( $this->Template->comments as $comment)
+    $this->Template->howManyEntriesText = $howManyEntriesText;
+
+    // die vom nlsh_gb_initial- Template übergebenen Comments- Daten wieder in ein Array umwandeln
+    // und die Nummer hinzufügen
+    foreach( $this->Template->comments as $comment)
+    {
+        $tempComment = unserialize(trim($comment));
+
+        // Durchnummerieren
+        for ($a = 0, $count = count($arrGbEntries); $a < $count; $a++)
         {
-            $tempComment = unserialize(trim($comment));
-
-            // Durchnummerieren
-            for ($a = 0; $a < count($arrGbEntries); $a++)
+            if ($arrGbEntries[$a]['id'] == $tempComment['id'])
             {
-                if ($arrGbEntries[$a]['id'] == $tempComment['id'])
-                {
-                    $tempComment['nr'] = $a + 1;
-                }
+                $tempComment['nr'] = $a + 1;
             }
-
-            //Überschriften herausholen
-            if (strpos($tempComment['comment'], '[/h]'))
-            {
-                $start = strpos($tempComment['comment'], '[h]');
-                $end   = strpos($tempComment['comment'], '[/h]') + 4;
-
-                $tempComment['headlineComment'] = substr($tempComment['comment'], $start + 3 , $end - $start - 7);
-                $tempComment['comment'] = substr($tempComment['comment'], 0, $start) . substr($tempComment['comment'], $end);
-            }
-
-            $tempArrComments[] = $tempComment;
         }
 
-        // und in das Template übernehmen
-        $this->Template->comments = $tempArrComments;
-
-        // Anzahl der übermittelten Kommentare ins Template
-        $this->Template->countComments = count($this->Template->comments);
-
-        // Wenn Link für ein neuen Gästebucheintrag benutzt wurde
-        // Wird im Template abgefragt und benötigt!
-        if ($this->Input->get(self::GET_INPUT_GBENTRIE) === 'true')
+        //Überschriften herausholen
+        if (strpos($tempComment['comment'], '[/h]'))
         {
-            $this->Template->inputNewEntrie = true;
+            $start = strpos($tempComment['comment'], '[h]');
+            $end   = strpos($tempComment['comment'], '[/h]') + 4;
+
+            $tempComment['headlineComment'] = substr(
+                                                     $tempComment['comment'],
+                                                     $start + 3 ,
+                                                     $end - $start - 7
+                                                     );
+            $tempComment['comment'] = substr(
+                                              $tempComment['comment'],
+                                              0,
+                                              $start
+                                             )
+                                    . substr(
+                                              $tempComment['comment'],
+                                              $end
+                                             );
         }
 
-        // Html- Link für neuen Eintrag erzeugen
-        $this->Template->htmlLinkNewEntrie = $this->getHtmlLinkForNewNlshGbEntrie();
+        $tempArrComments[] = $tempComment;
+    }
 
-        // Formular erweitern mit Auswahl Smilies und BBCode und Überschriftenfeld
-        if ( $this->com_bbcode == true)
-        {
-            $bbCode  = $this->getHtmlDivSelectBbcOrSmilies('bbcode', 'com_tl_page_' . $objPage->id, $this->arrBbcFormat);
-            $smilies = $this->getHtmlDivSelectBbcOrSmilies('smilies', 'com_tl_page_' . $objPage->id, $this->arrSmilies);
-        }
+    // und in das Template übernehmen
+    $this->Template->comments = $tempArrComments;
 
-        // Formular für Dateneingabe vorbereiten
-        $this->form                = new \FrontendTemplate('nlsh_mod_comment_form');
-        $this->form->requireLogin  = $this->Template->requireLogin;
-        $this->form->confirm       = $this->Template->confirm;
-        $this->form->allowComments = $this->Template->allowComments;
-        $this->form->action        = $this->delGetEntryFromRequest($this->Template->action, self::GET_INPUT_GBENTRIE);
-        $this->form->formId        = $this->Template->formId;
-        $this->form->bbCode        = $bbCode;
-        $this->form->smilies       = $smilies;
-        $this->form->submit        = $this->Template->submit;
-        $this->form->fields        = $this->Template->fields;
-        $this->form->cancelValue   = $GLOBALS['TL_LANG']['nlsh_guestbook']['cancelButton'];
-        $this->Template->form      = $this->form->parse();
+    // Anzahl der übermittelten Kommentare ins Template
+    $this->Template->countComments = count($this->Template->comments);
+
+    // Wenn Link für ein neuen Gästebucheintrag benutzt wurde
+    // Wird im Template abgefragt und benötigt!
+    if ($this->Input->get(self::GET_INPUT_GBENTRIE) === 'true')
+    {
+        $this->Template->inputNewEntrie = true;
+    }
+
+    // Html- Link für neuen Eintrag erzeugen
+    $this->Template->htmlLinkNewEntrie = $this->getHtmlLinkForNewNlshGbEntrie();
+
+    // Formular erweitern mit Auswahl Smilies und BBCode und Überschriftenfeld
+    if ( $this->com_bbcode == true)
+    {
+        $bbCode  = $this->getHtmlDivSelectBbcOrSmilies(
+                                                        'bbcode',
+                                                        'com_tl_page_' . $objPage->id,
+                                                        $this->arrBbcFormat
+                                                       );
+        $smilies = $this->getHtmlDivSelectBbcOrSmilies(
+                                                        'smilies',
+                                                        'com_tl_page_' . $objPage->id,
+                                                        $this->arrSmilies
+                                                       );
+    }
+
+    // Formular für Dateneingabe vorbereiten
+    $this->form                = new \FrontendTemplate('nlsh_mod_comment_form');
+    $this->form->requireLogin  = $this->Template->requireLogin;
+    $this->form->confirm       = $this->Template->confirm;
+    $this->form->allowComments = $this->Template->allowComments;
+    $this->form->action        = $this->delGetEntryFromRequest(
+                                                                $this->Template->action,
+                                                                self::GET_INPUT_GBENTRIE
+                                                               );
+    $this->form->formId        = $this->Template->formId;
+    $this->form->bbCode        = $bbCode;
+    $this->form->smilies       = $smilies;
+    $this->form->submit        = $this->Template->submit;
+    $this->form->fields        = $this->Template->fields;
+    $this->form->cancelValue   = $GLOBALS['TL_LANG']['nlsh_guestbook']['cancelButton'];
+    $this->Template->form      = $this->form->parse();
     }
 
 
@@ -215,7 +263,7 @@ class ModuleNlshComments extends \Module
      */
      public function getHtmlDivSelectBbcOrSmilies ($strClass, $strCssIdForm, $arrArray)
      {
-        return sprintf( '<div class="%s">%s' . "\n</div>\n",
+        return sprintf('<div class="%s">%s' . "\n</div>\n",
                 $strClass,
                 $this->getHtmlLinkInsertWithJava($strCssIdForm, $arrArray)
         );
@@ -236,7 +284,10 @@ class ModuleNlshComments extends \Module
 
         for ($i = 0; $i < count($arrArray); $i++)
         {
-            $strHtml .= sprintf("\n <a href=\"javascript:insert('%s', '%s', '%s')\"><img src=\"%s\" alt=\"%s\" title=\"%s\" /></a>",
+            $strHtml .= sprintf("\n
+                                 <a href=\"javascript:insert('%s', '%s', '%s')\">
+                                 <img src=\"%s\" alt=\"%s\" title=\"%s\" />
+                                 </a>",
                          $strCssFormId,
                          $arrArray[$i][0],
                          $arrArray[$i][1],
@@ -259,7 +310,9 @@ class ModuleNlshComments extends \Module
     {
         global $objPage;
 
-        $strOutput = $this->delGetEntryFromRequest($this->Environment->request, self::GET_INPUT_GBENTRIE);
+        $strOutput = $this->delGetEntryFromRequest(
+                                                    $this->Environment
+                                                         ->request, self::GET_INPUT_GBENTRIE);
 
         if ($strOutput == false)
         {
