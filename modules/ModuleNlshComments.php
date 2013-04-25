@@ -263,7 +263,7 @@ class ModuleNlshComments extends \Module
 
         if ($strOutput == false)
         {
-        	$strOutput = $this->generateFrontendUrl(array(  'id'       => $objPage->id,
+            $strOutput = $this->generateFrontendUrl(array(  'id'       => $objPage->id,
                                                             'language' => $objPage->language,
                                                             'alias'    => $objPage->alias ));
         }
@@ -279,6 +279,7 @@ class ModuleNlshComments extends \Module
         );
     }
 
+
     /**
      * bestimmten Get- Eintrag aus Request- String löschen
      *
@@ -288,7 +289,7 @@ class ModuleNlshComments extends \Module
      */
      public function delGetEntryFromRequest($request, $getEntry)
      {
-     	if (preg_match('/(&(amp;)?|\?)'. $getEntry . '=[^&]+/', $request))
+        if (preg_match('/(&(amp;)?|\?)'. $getEntry . '=[^&]+/', $request))
         {
             return preg_replace('/(&(amp;)?|\?)' . $getEntry . '=[^&]+/', '', $request);
         }
