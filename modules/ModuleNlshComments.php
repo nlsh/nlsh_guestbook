@@ -239,10 +239,6 @@ class ModuleNlshComments extends \Module
     $this->form->requireLogin  = $this->Template->requireLogin;
     $this->form->confirm       = $this->Template->confirm;
     $this->form->allowComments = $this->Template->allowComments;
-    $this->form->action        = $this->delGetEntryFromRequest(
-                                                                $this->Template->action,
-                                                                self::GET_INPUT_GBENTRIE
-                                                               );
     $this->form->formId        = $this->Template->formId;
     $this->form->bbCode        = $bbCode;
     $this->form->smilies       = $smilies;
@@ -250,6 +246,10 @@ class ModuleNlshComments extends \Module
     $this->form->fields        = $this->Template->fields;
     $this->form->cancelValue   = $GLOBALS['TL_LANG']['nlsh_guestbook']['cancelButton'];
     $this->Template->form      = $this->form->parse();
+    $this->form->action        = $this->delGetEntryFromRequest(
+                                                                $this->Template->action,
+                                                                self::GET_INPUT_GBENTRIE
+                                                               );
     }
 
 
@@ -263,10 +263,11 @@ class ModuleNlshComments extends \Module
      */
      public function getHtmlDivSelectBbcOrSmilies ($strClass, $strCssIdForm, $arrArray)
      {
-        return sprintf('<div class="%s">%s' . "\n</div>\n",
-                $strClass,
-                $this->getHtmlLinkInsertWithJava($strCssIdForm, $arrArray)
-        );
+        return sprintf(
+                        '<div class="%s">%s' . "\n</div>\n",
+                        $strClass,
+                        $this->getHtmlLinkInsertWithJava($strCssIdForm, $arrArray)
+                        );
      }
 
 
@@ -284,17 +285,18 @@ class ModuleNlshComments extends \Module
 
         for ($i = 0; $i < count($arrArray); $i++)
         {
-            $strHtml .= sprintf("\n
+            $strHtml .= sprintf(
+                                 "\n
                                  <a href=\"javascript:insert('%s', '%s', '%s')\">
                                  <img src=\"%s\" alt=\"%s\" title=\"%s\" />
                                  </a>",
-                         $strCssFormId,
-                         $arrArray[$i][0],
-                         $arrArray[$i][1],
-                         $strUrl . $arrArray[$i][2],
-                         $arrArray[$i][0],
-                         $arrArray[$i][3]
-            );
+                                 $strCssFormId,
+                                 $arrArray[$i][0],
+                                 $arrArray[$i][1],
+                                 $strUrl . $arrArray[$i][2],
+                                 $arrArray[$i][0],
+                                 $arrArray[$i][3]
+                                );
         }
 
         return $strHtml;
@@ -311,25 +313,28 @@ class ModuleNlshComments extends \Module
         global $objPage;
 
         $strOutput = $this->delGetEntryFromRequest(
-                                                    $this->Environment
-                                                         ->request, self::GET_INPUT_GBENTRIE);
+                                                    $this->Environment->request,
+                                                    self::GET_INPUT_GBENTRIE
+                                                    );
 
         if ($strOutput == false)
         {
-            $strOutput = $this->generateFrontendUrl(array(  'id'       => $objPage->id,
+            $strOutput = $this->generateFrontendUrl(array(  
+                                                            'id'       => $objPage->id,
                                                             'language' => $objPage->language,
-                                                            'alias'    => $objPage->alias ));
+                                                            'alias'    => $objPage->alias )
+                                                          );
         }
 
         // wichtig !! Kontrolle auf zusätzlichen Request
         $strConnector = (strpos($strOutput, '?') !== false) ? '&' : '?';
 
         return sprintf(
-                '<a class="linknewentrie" title="%s" href="%s">%s</a>',
-                $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'],
-                $strOutput . $strConnector . self::GET_INPUT_GBENTRIE . '=true',
-                $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries']
-        );
+                        '<a class="linknewentrie" title="%s" href="%s">%s</a>',
+                        $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries'],
+                        $strOutput . $strConnector . self::GET_INPUT_GBENTRIE . '=true',
+                        $GLOBALS['TL_LANG']['nlsh_guestbook']['inputNewEntries']
+                        );
     }
 
 
