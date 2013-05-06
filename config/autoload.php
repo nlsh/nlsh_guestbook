@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2005-2013 Leo Feyer
  * 
- * @package Nlsh_guestbook
+ * @package nlshGuestbook
  * @link    https://contao.org
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
