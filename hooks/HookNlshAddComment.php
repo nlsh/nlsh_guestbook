@@ -82,12 +82,37 @@ class HookNlshAddComment extends \Backend
                     ->execute($tl_content->module);
         End Step by step */
 
-        $this->tl_module = $this->Database->prepare("SELECT * FROM tl_module WHERE `id` = (SELECT `module` FROM tl_content WHERE `pid` = (SELECT `id` FROM tl_article WHERE `pid` = ? ) AND `type` = 'module')")
-                    ->execute($arrComment['parent']);
+        $this->tl_module = $this->Database
+                ->prepare(
+                            "
+                            SELECT
+                                    *
+                            FROM
+                                    tl_module
+                            WHERE
+                                    `id` = (
+                                                SELECT
+                                                        `module`
+                                                FROM
+                                                        tl_content
+                                                WHERE
+                                                        `pid` = (
+                                                                    SELECT
+                                                                            `id`
+                                                                    FROM
+                                                                            tl_article
+                                                                    WHERE
+                                                                            `pid` = ?
+                                                )
+                            AND
+                                    `type` = 'module'
+                            )"
+                )
+                ->execute($arrComment['parent']);
 
         // nur wenn Eintrag vom Modul 'nlsh_guestbook'
-        if ( $this->tl_module->type == 'nlsh_guestbook')
-        {
+        if ( $this->tl_module->type == 'nlsh_guestbook'){
+
             // Smilies außerhalb der Extension hinzufügen
             $arrSmilies   = $this->arrSmilies;
             $arrSmilies[] = array (':-)', '', 'smile.gif');
@@ -95,27 +120,46 @@ class HookNlshAddComment extends \Backend
             $arrSmilies[] = array (';-)', '', 'wink.gif');
 
             // Smilies ersetzen
-            for ($b = 0; $b < count($arrSmilies); $b++)
-            {
-                $arrComment['comment'] = str_replace($arrSmilies[$b][0], '<img src="system/modules/nlsh_guestbook/html/smilies/' . $arrSmilies[$b][2] . '" title="' . $arrSmilies[$b][0] . '" alt="Smile" />', $arrComment['comment']);
+            for ($b = 0, $count = count($arrSmilies); $b < $count; $b++){
+
+                $imageTag = sprintf(
+                        '<img src="system/modules/nlsh_guestbook/html/smilies/%s" title="%s" alt="Smile" />',
+                        $arrSmilies[$b][2],
+                        $arrSmilies[$b][0]
+                );
+
+                $arrComment['comment'] = str_replace(
+                        $arrSmilies[$b][0],
+                        $imageTag,
+                        $arrComment['comment']);
             }
 
             // Überschrift zum Kommentar hinzufügen
-            if ($this->Input->post('headline'))
-            {
-                $arrComment['comment'] = '[h]' . $this->_checkString($this->Input->post('headline')) . '[/h]' .  $arrComment['comment'];
+            if ($this->Input->post('headline')){
+
+                $headline              = $this->_checkString($this->Input->post('headline'));
+                $arrComment['comment'] = '[h]' . $headline . '[/h]' .  $arrComment['comment'];
             };
 
             // Datensatz in Datenbank updaten
-            $this->Database->prepare("UPDATE `tl_comments` SET `comment` = ? WHERE `id` =?")
-                        ->execute($arrComment['comment'], $intId);
+            $this->Database
+                    ->prepare(
+                                "
+                                    UPDATE
+                                            `tl_comments`
+                                    SET
+                                            `comment` = ?
+                                    WHERE
+                                            `id` =?"
+                    )
+                    ->execute($arrComment['comment'], $intId);
 
             // Benachrichtigungs- Mail über neuen Eintrag erstellen und senden, wenn gewünscht
-            if ($this->tl_module->com_nlsh_gb_bolMail == true)
-            {
+            if ($this->tl_module->com_nlsh_gb_bolMail == true){
+
                 $this->import('Email');
 
-                $email = new \email;
+                $email          = new \email;
                 $email->subject = $GLOBALS['TL_LANG']['nlsh_guestbook']['email_subject'];
                 $email->html    = str_replace('[h]', '<h1>', $arrComment['comment']);
                 $email->html    = str_replace('[/h]', '</h1>',$email->html);
@@ -123,7 +167,6 @@ class HookNlshAddComment extends \Backend
                 $email->sendTo($this->tl_module->com_nlsh_gb_email);
             }
         };
-
     }
 
 
@@ -134,11 +177,14 @@ class HookNlshAddComment extends \Backend
      * @param  string  zu kontrollierender String
      * @return string  bereinigter String
      */
-    protected function _checkString($strToCheck)
+    protected function _checkString($toCheck)
     {
         // Prevent cross-site request forgeries
-        $strToCheck = preg_replace('/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"', $strToCheck);
+        $toCheck = preg_replace(
+                '/(href|src|on[a-z]+)="[^"]*(contao\/main\.php|typolight\/main\.php|javascript|vbscri?pt|script|alert|document|cookie|window)[^"]*"+/i', '$1="#"',
+                $toCheck
+        );
 
-        return $strToCheck;
+        return $toCheck;
     }
 }

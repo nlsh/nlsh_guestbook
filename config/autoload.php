@@ -5,7 +5,7 @@
  * 
  * Copyright (C) 2005-2013 Leo Feyer
  * 
- * @package nlshGuestbook
+ * @package Nlsh_guestbook
  * @link    https://contao.org
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
@@ -27,6 +27,7 @@ ClassLoader::addClasses(array
 (
 	// Classes
 	'nlsh\guestbook\tl_commentNlshGuestbook' => 'system/modules/nlsh_guestbook/classes/tl_commentNlshGuestbook.php',
+	'nlsh\guestbook\tl_moduleNlshGuestbook'  => 'system/modules/nlsh_guestbook/classes/tl_moduleNlshGuestbook.php',
 
 	// Hooks
 	'nlsh\guestbook\HookNlshAddComment'      => 'system/modules/nlsh_guestbook/hooks/HookNlshAddComment.php',
@@ -41,7 +42,6 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'nlsh_cancelButton'      => 'system/modules/nlsh_guestbook/templates',
 	'nlsh_gb_initial'        => 'system/modules/nlsh_guestbook/templates',
 	'nlsh_guestbook_default' => 'system/modules/nlsh_guestbook/templates',
 	'nlsh_mod_comment_form'  => 'system/modules/nlsh_guestbook/templates',
