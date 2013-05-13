@@ -31,8 +31,7 @@ class tl_commentNlshGuestbook extends \Backend
      *
      * Contao- Core Funktion
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->import('BackendUser', 'User');
     }
@@ -47,16 +46,14 @@ class tl_commentNlshGuestbook extends \Backend
      *
      * load_callback des Feldes date
      *
-     * @param   int            gespeichertes Datum
-     * @param   \DataContainer DataContainer- Objekt von Contao
-     * @return  string         Datum im engl. Format Y-m-d
+     * @param   int             $field  gespeichertes Datum
+     * @param   \DataContainer  $dc     DataContainer- Objekt von Contao
+     * @return  string          Datum im engl. Format Y-m-d
      */
-    public function dateEnglishFormat($Field, \DataContainer $dc)
-    {
+    public function dateEnglishFormat($field, \DataContainer $dc) {
+         //       $GLOBALS['TL_CONFIG']['dateFormat'] = 'Y-m-d';
 
- //       $GLOBALS['TL_CONFIG']['dateFormat'] = 'Y-m-d';
-
-        return $Field;
+        return $field;
     }
 
 
@@ -69,16 +66,15 @@ class tl_commentNlshGuestbook extends \Backend
      *
      * save_callback des Feldes date
      *
-     * @param   int              gewähltes Datum
-     * @param   \DataContainer   DataContainer- Objekt von Contao
-     * @return  string gewähltes Datum mit Uhrzeit
+     * @param   int              $field  gewähltes Datum
+     * @param   \DataContainer   $dc     DataContainer- Objekt von Contao
+     * @return  string           gewähltes Datum mit Uhrzeit
      */
-    public function saveTime($Field, \DataContainer $dc)
-    {
+    public function saveTime($field, \DataContainer $dc) {
         $oldTstamp = $this->Database->prepare("SELECT `date` FROM `tl_comments` WHERE `id` =?")
                                 ->execute($dc->id);
 
-        $timeCompled = $Field       + (date('G', $oldTstamp->date) * 60 * 60);
+        $timeCompled = $field       + (date('G', $oldTstamp->date) * 60 * 60);
         $timeCompled = $timeCompled + (date('i', $oldTstamp->date) * 60);
         $timeCompled = $timeCompled + (date('s', $oldTstamp->date));
 

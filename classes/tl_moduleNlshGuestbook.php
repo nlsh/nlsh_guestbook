@@ -29,23 +29,31 @@ class tl_moduleNlshGuestbook extends \Backend
     /**
      * Eintrag des 'Initial'- Templates, bei Neuanlage eines Gästebuchmodules.
      *
-     * wird benötigt, da es die Werte in Form eines serialisierten Array zurück gibt!
+     * wird benötigt, da es die Werte in Form
+     * eines serialisierten Array zurück gibt!
      *
      * ein onload-callback des DCA's
      *
-     * @param \DataContainer  DataContainer- Objekt
+     * @param \DataContainer  $dc  DataContainer- Objekt
+     * @return void
      */
-    public function setInitialTemplate(\DataContainer $dc)
-    {
-        $objModule = $this->Database->prepare("SELECT * FROM `tl_module` WHERE `id` = ?")
+    public function setInitialTemplate(\DataContainer $dc) {
+        $objModule = $this->Database
+                ->prepare("SELECT   *
+                           FROM     `tl_module`
+                           WHERE    `id` = ?"
+                )
                 ->execute($dc->id);
 
-        // Wenn Gästebuchmodul
-        if($objModule->type == 'nlsh_guestbook')
-        {
-            // Template eintragen
-            $this->Database->prepare("UPDATE `tl_module` SET `com_template` = 'nlsh_gb_initial' WHERE `tl_module`.`id` = ?")
-                        ->execute($dc->id);
+         // Wenn Gästebuchmodul
+        if ($objModule->type == 'nlsh_guestbook') {
+             // Template eintragen
+            $this->Database
+                    ->prepare("UPDATE    `tl_module`
+                               SET       `com_template` = 'nlsh_gb_initial'
+                               WHERE     `tl_module`.`id` = ?"
+                    )
+                    ->execute($dc->id);
         }
     }
 
@@ -55,15 +63,14 @@ class tl_moduleNlshGuestbook extends \Backend
      *
      * ein option-callback des Feldes com_nlsh_gb_template
      *
-     * @param   \DataContainer  DataContainer- Objekt
-     * @return  array           Array mit Templates, welche mit 'nlsh_guestbook_' beginnen
+     * @param   \DataContainer  $dc  DataContainer- Objekt
+     * @return  array           Array mit Templates,
+     *                          welche mit 'nlsh_guestbook_' beginnen
      */
-    public function getCommentTemplates(\DataContainer $dc)
-    {
+    public function getCommentTemplates(\DataContainer $dc) {
         $intPid = $dc->activeRecord->pid;
 
-        if ($this->Input->get('act') == 'overrideAll')
-        {
+        if ($this->Input->get('act') == 'overrideAll') {
             $intPid = $this->Input->get('id');
         }
 

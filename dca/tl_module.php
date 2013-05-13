@@ -60,23 +60,23 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['com_nlsh_gb_bolMail'] = 'com_nls
  */
 $GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_bolMail'] = array(
         'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_bolMail'],
-        'exclude'                 => true,
+        'exclude'                 => TRUE,
         'inputType'               => 'checkbox',
-        'eval'                    => array('tl_class'=>'w50','submitOnChange'=>true),
+        'eval'                    => array('tl_class' => 'w50', 'submitOnChange' => TRUE),
         'sql'                     => "char(1) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_email'] = array(
         'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_email'],
-        'exclude'                 => true,
-        'search'                  => true,
+        'exclude'                 => TRUE,
+        'search'                  => TRUE,
         'inputType'               => 'text',
         'eval'                    => array(
-                'mandatory'=>true,
-                'maxlength'=>255,
-                'rgxp'=>'email',
-                'decodeEntities'=>true,
-                'tl_class'=>'w50'
+                'mandatory'       => TRUE,
+                'maxlength'       => 255,
+                'rgxp'            => 'email',
+                'decodeEntities'  => TRUE,
+                'tl_class'        => 'w50'
         ),
         'sql'                     => "varchar(255) NOT NULL default ''"
 );
@@ -85,9 +85,10 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_template'] = array
 (
         'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_template'],
         'default'                 => 'com_default',
-        'exclude'                 => true,
+        'exclude'                 => TRUE,
         'inputType'               => 'select',
-        'options_callback'        => array('\nlsh\guestbook\tl_moduleNlshGuestbook', 'getCommentTemplates'),
-        'eval'                    => array('tl_class'=>'w50'),
+        'options_callback'        => array( '\nlsh\guestbook\tl_moduleNlshGuestbook',
+                                            'getCommentTemplates'),
+        'eval'                    => array('tl_class' => 'w50'),
         'sql'                     => "varchar(32) NOT NULL default ''"
 );
