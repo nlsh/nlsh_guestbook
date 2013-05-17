@@ -46,7 +46,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_guestbook'] = 'system/modules/nlsh_guestbook/htm
 
 <?php if ($this->comments[$i]['addReply']): ?>
 <div class="reply">
- <p class="info"><?php echo $this->comments[$i]['rby']; ?> <?php echo $this->comments[$i]['authorName']; ?></p>
+ <p class="info"><?php echo $this->comments[$i]['rby']; ?> <?php echo $this->comments[$i]['author']->name; ?></p>
 
 <div class="comment">
  <?php echo $this->comments[$i]['reply']; ?>
