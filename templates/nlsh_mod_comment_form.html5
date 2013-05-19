@@ -27,7 +27,7 @@
 <?php endif; ?>
 
 <div class="widget">
-<input id="ctrl_headline" class="text" type="text" maxlength="255" value="" name="headline" />
+<input id="ctrl_headline" class="text" type="text" maxlength="255" value="<?php echo $this->Input->post('headline') ?>" name="headline" />
 <label for="ctrl_headline"><span class="headline"><?php echo $GLOBALS['TL_LANG']['nlsh_guestbook']['headline']?></span></label>
 </div>
 
