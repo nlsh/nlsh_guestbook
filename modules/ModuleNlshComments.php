@@ -224,8 +224,9 @@ class ModuleNlshComments extends \Module
         $this->Template->countComments = count($this->Template->comments);
 
          // Wenn Link für ein neuen Gästebucheintrag benutzt wurde
+         // oder wenn eine Fehl-/ Falscheingabe erfolgte
          // Wird im Template abgefragt und benötigt!
-        if ($this->Input->get(self::GET_INPUT_GBENTRIE) === 'TRUE') {
+        if ($this->Input->get(self::GET_INPUT_GBENTRIE) === 'TRUE' || $this->Template->hasError) {
             $this->Template->inputNewEntrie = TRUE;
         }
 
