@@ -14,23 +14,29 @@
 * Table tl_comments
 */
 
-foreach($GLOBALS['TL_DCA']['tl_comments']['palettes'] as $k => $v)
-{
-        if($k != '__selector__')    {
-                                        if(strstr($v, '{comment_legend},comment;'))
-                                            $GLOBALS['TL_DCA']['tl_comments']['palettes'][$k] = str_replace('{comment_legend},comment;', '{comment_legend},date;comment;', $v);
-                                    }
+foreach ($GLOBALS['TL_DCA']['tl_comments']['palettes'] as $k => $v) {
+    if ($k != '__selector__') {
+        if (strstr($v, '{comment_legend},comment;')) {
+            $GLOBALS['TL_DCA']['tl_comments']['palettes'][$k] = str_replace(
+                    '{comment_legend},comment;',
+                    '{comment_legend},date;comment;',
+                    $v
+            );
+        }
+    }
 }
 
 $GLOBALS['TL_DCA']['tl_comments']['fields']['date']['inputType'] =  'text';
-$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['save_callback'] = array
-                                                                       (
-                                                                           array ('tl_commentNlshGuestbook', 'saveTime')
-                                                                       );
-$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['eval']      =  array
-                                                                    (
-                                                                        'rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(),'tl_class'=>'w50 wizard'
-                                                                    );
+
+$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['save_callback'] = array(
+    array ('tlCommentNlshGuestbook', 'saveTime')
+);
+
+$GLOBALS['TL_DCA']['tl_comments']['fields']['date']['eval']  =  array(
+    'rgxp'       => 'date',
+    'datepicker' => $this->getDatePickerString(),
+    'tl_class'   => 'w50 wizard'
+);
 
 
 /**
@@ -42,7 +48,7 @@ $GLOBALS['TL_DCA']['tl_comments']['fields']['date']['eval']      =  array
 * @link      https://github.com/nlsh/nlsh_guestbook
 * @license   LGPL
 */
-class tl_commentNlshGuestbook extends \Backend
+class tlCommentNlshGuestbook extends \Backend
 {
 
 
@@ -51,8 +57,7 @@ class tl_commentNlshGuestbook extends \Backend
 *
 * Contao- Core Funktion
 */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->import('BackendUser', 'User');
     }
@@ -67,16 +72,18 @@ class tl_commentNlshGuestbook extends \Backend
     *
     * save_callback des Feldes date
     *
-    * @param   int gewähltes Datum
-    * @param   \DataContainer DataContainer- Objekt von Contao
-    * @return  string gewähltes Datum mit Uhrzeit
+    * @param   int             $field gewähltes Datum
+    * @param   \DataContainer  $dc DataContainer- Objekt von Contao
+    * @return  string          gewähltes Datum mit Uhrzeit
     */
-    public function saveTime($Field, DataContainer $dc)
-    {
-        $oldTstamp = $this->Database->prepare("SELECT `date` FROM `tl_comments` WHERE `id` =?")
-                                ->execute($dc->id);
+    public function saveTime($field, DataContainer $dc) {
+        $oldTstamp = $this->Database
+            ->prepare("SELECT `date` FROM `tl_comments` WHERE `id` =?")
+            ->execute($dc->id);
 
-        $timeCompled = $Field + (date('G', $oldTstamp->date) * 60 * 60) + (date('i', $oldTstamp->date) * 60) + (date('s', $oldTstamp->date));
+        $timeCompled = $field       + (date('G', $oldTstamp->date) * 60 * 60);
+        $timeCompled = $timeCompled + (date('i', $oldTstamp->date) * 60);
+        $timeCompled = $timeCompled + (date('s', $oldTstamp->date));
 
         return $timeCompled;
     }

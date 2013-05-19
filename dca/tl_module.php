@@ -38,7 +38,9 @@
   * Add onload- callback to tl_module
    */
 
-$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('tl_NlshModule','setInitialTemplate');
+$GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array(
+        'tl_NlshModule','setInitialTemplate'
+);
 
 
  /**
@@ -48,7 +50,14 @@ $GLOBALS['TL_DCA']['tl_module']['config']['onload_callback'][] = array('tl_NlshM
 $GLOBALS['TL_DCA']['tl_module']['palettes']['nlsh_guestbook'] =     '{title_legend},
                                                                         name,headline,type;
                                                                     {comment_legend},
-                                                                        com_order,perPage,com_moderate,com_bbcode,com_protected,com_requireLogin,com_disableCaptcha,com_nlsh_gb_bolMail;;
+                                                                        com_order,
+                                                                        perPage,
+                                                                        com_moderate,
+                                                                        com_bbcode,
+                                                                        com_protected,
+                                                                        com_requireLogin,
+                                                                        com_disableCaptcha,
+                                                                        com_nlsh_gb_bolMail;;
                                                                     {template_legend:hide},
                                                                         com_nlsh_gb_template;
                                                                     {protected_legend:hide},
@@ -72,31 +81,34 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['nlsh_guestbook'] =     '{title_lege
  /**
  * Add Fields to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_bolMail'] = array
-(
-                    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_bolMail'],
-                    'exclude'                 => true,
-                    'inputType'               => 'checkbox',
-                    'eval'                    => array('tl_class'=>'w50','submitOnChange'=>true)
+$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_bolMail'] = array(
+    'label'     => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_bolMail'],
+    'exclude'   => TRUE,
+    'inputType' => 'checkbox',
+    'eval'      => array('tl_class' => 'w50', 'submitOnChange' => TRUE)
 );
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_email'] = array
-(
-                    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_email'],
-                    'exclude'                 => true,
-                    'search'                  => true,
-                    'inputType'               => 'text',
-                    'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'rgxp'=>'email', 'decodeEntities'=>true, 'tl_class'=>'w50')
+$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_email'] = array(
+    'label'     => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_email'],
+    'exclude'   => TRUE,
+    'search'    => TRUE,
+    'inputType' => 'text',
+    'eval'      => array(
+        'mandatory'      => TRUE,
+        'maxlength'      => 255,
+        'rgxp'           => 'email',
+        'decodeEntities' => TRUE,
+        'tl_class'       => 'w50'
+    )
 );
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_template'] = array
-(
-                    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_template'],
-                    'default'                 => 'com_default',
-                    'exclude'                 => true,
-                    'inputType'               => 'select',
-                    'options_callback'        => array('tl_NlshModule', 'getCommentTemplates'),
-                    'eval'                    => array('tl_class'=>'w50')
+$GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_template'] = array(
+    'label'            => &$GLOBALS['TL_LANG']['tl_module']['com_nlsh_gb_template'],
+    'default'          => 'com_default',
+    'exclude'          => TRUE,
+    'inputType'        => 'select',
+    'options_callback' => array('tl_NlshModule', 'getCommentTemplates'),
+    'eval'             => array('tl_class ' => 'w50')
 );
 
 
@@ -104,6 +116,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['com_nlsh_gb_template'] = array
 * class tl_NlshModule
 *
 * Enthält Funktionen einzelner Felder der Konfiguration des tl_module DCA`s
+*
 * @package nlsh_guestbook
 */
 class tl_NlshModule extends Backend
@@ -111,29 +124,36 @@ class tl_NlshModule extends Backend
     /**
      * Import the back end user object
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         $this->import('BackendUser', 'User');
     }
 
 
     /**
-     * Belegt beim Anlegen eines Gästebuchmodules die Tabelle 'com_template' mit 'nlsh_guestbook_initial' vor
+     * Belegt beim Anlegen eines Gästebuchmodules
+     * die Tabelle 'com_template' mit 'nlsh_guestbook_initial' vor
      *
      * onload-callback des DCA's
+     *
+     * @param \DataContainer $dc Datacontainer Objekt
+     * @return void
      */
-    public function setInitialTemplate(Datacontainer $dc)
-    {
-        $objModule = $this->Database->prepare("SELECT * FROM `tl_module` WHERE `id` = ?")
-                ->execute($dc->id);
+    public function setInitialTemplate(Datacontainer $dc) {
+        $objModule = $this->Database
+            ->prepare("SELECT * FROM `tl_module` WHERE `id` = ?")
+            ->execute($dc->id);
 
-        // Wenn Gästebuchmodul
-        if($objModule->type == 'nlsh_guestbook')
-        {
-            // Template eintragen
-            $this->Database->prepare("UPDATE `tl_module` SET `com_template` = 'nlsh_gb_initial' WHERE `tl_module`.`id` = ?")
-                        ->execute($dc->id);
+         // Wenn Gästebuchmodul
+        if ($objModule->type == 'nlsh_guestbook') {
+             // Template eintragen
+            $this->Database
+                ->prepare("
+                            UPDATE      `tl_module`
+                            SET         `com_template` = 'nlsh_gb_initial'
+                            WHERE       `tl_module`.`id` = ?"
+                )
+                ->execute($dc->id);
         }
 
     }
@@ -142,15 +162,14 @@ class tl_NlshModule extends Backend
      /**
      * Gibt alle Gästebuchtemplates als Array zurück
      * option-callback des Feldes com_nlsh_gb_template
-     * @param DataContainer
+     *
+     * @param \DataContainer $dc DataContainer Objekt
      * @return array
      */
-    public function getCommentTemplates(DataContainer $dc)
-    {
+    public function getCommentTemplates(DataContainer $dc) {
         $intPid = $dc->activeRecord->pid;
 
-        if ($this->Input->get('act') == 'overrideAll')
-        {
+        if ($this->Input->get('act') == 'overrideAll') {
             $intPid = $this->Input->get('id');
         }
 

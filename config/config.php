@@ -76,7 +76,7 @@
  *
  * Use function array_insert() to modify an existing CTE array.
  */
-array_insert ($GLOBALS['FE_MOD']['application'],3, array
+array_insert ($GLOBALS['FE_MOD']['application'], 3, array
 (
     'nlsh_guestbook' => 'ModuleNlshComments',
 ));
@@ -176,7 +176,7 @@ array_insert ($GLOBALS['FE_MOD']['application'],3, array
  * Use function array_insert() to modify an existing hooks array.
  */
 
-$GLOBALS['TL_HOOKS']['addComment'][] = array('HookNlshAddComment', 'nlshAddComment'); 
+$GLOBALS['TL_HOOKS']['addComment'][] = array('HookNlshAddComment', 'nlshAddComment');
 
 /**
  * -------------------------------------------------------------------------
