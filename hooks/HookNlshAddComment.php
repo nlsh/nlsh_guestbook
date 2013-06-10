@@ -157,7 +157,7 @@ class HookNlshAddComment extends \Backend
                     ->execute($arrComment['comment'], $intId);
 
              // Benachrichtigungs- Mail erstellen und senden, wenn gewünscht
-            if ($this->tl_module->com_nlsh_gb_bolMail == TRUE) {
+            if ($this->tlModule->com_nlsh_gb_bolMail == TRUE) {
                 $this->import('Email');
 
                 $email          = new \email;
