@@ -119,6 +119,15 @@ class HookNlshAddComment extends \Backend
 
          // nur wenn Eintrag vom Modul 'nlsh_guestbook'
         if ($this->tlModule->type == 'nlsh_guestbook') {
+            // Löschen, da es Probleme beim purem Update des Eintrages gab
+            // es ging weder über die Models, noch über ein einfaches
+            // UPDATE des SQL- Eintrages, diese wurden ignoriert
+            // siehe #20
+           $this->Database
+                    ->prepare("DELETE FROM `tl_comments` WHERE `tl_comments` . `id` = ?"
+                    )
+                    ->execute($intId);
+
              // Smilies außerhalb der Extension hinzufügen
             $source      = 'system/modules/nlsh_guestbook/html/smilies/';
             $arrSmilies   = $this->arrSmilies;
@@ -147,14 +156,9 @@ class HookNlshAddComment extends \Backend
                 $arrComment['comment'] = '[h]' . $headline . '[/h]' .  $arrComment['comment'];
             };
 
-             // Datensatz in Datenbank updaten
-            $this->Database
-                    ->prepare(
-                                "UPDATE     `tl_comments`
-                                SET         `comment` = ?
-                                WHERE       `id` =?"
-                    )
-                    ->execute($arrComment['comment'], $intId);
+             // Datensatz in Datenbank eintragen
+            $objComment = new \CommentsModel();
+            $objComment->setRow($arrComment)->save();
 
              // Benachrichtigungs- Mail erstellen und senden, wenn gewünscht
             if ($this->tlModule->com_nlsh_gb_bolMail == TRUE) {
