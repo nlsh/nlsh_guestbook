@@ -41,6 +41,12 @@ class ModuleNlshComments extends \Module
 
 
     /**
+     * Platzhalter für den Konstruktor bei PHPUnit- Tests
+     */
+     // PlatzhalterKontruktor
+
+
+    /**
      * Definition der Smilies in einem Array
      *
      * @var array
@@ -327,15 +333,15 @@ class ModuleNlshComments extends \Module
         $objPage = $GLOBALS['objPage'];
 
         $link = $this->delGetEntryFromRequest(
-                $this->Environment->request,
-                self::GET_INPUT_GBENTRIE
+                        $this->Environment->request,
+                        self::GET_INPUT_GBENTRIE
         );
 
         if ($link == FALSE) {
             $link = $this->generateFrontendUrl(array(
-                    'id'       => $objPage->id,
-                    'language' => $objPage->language,
-                    'alias'    => $objPage->alias )
+                        'id'       => $objPage->id,
+                        'language' => $objPage->language,
+                        'alias'    => $objPage->alias )
             );
         }
 
