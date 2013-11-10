@@ -102,20 +102,14 @@ class HookNlshAddComment extends \Backend
          End Step by step */
 
         $this->tlModule = $this->Database
-                ->prepare("SELECT   *
-                           FROM     tl_module
-                           WHERE    `id` = (
-                                            SELECT      `module`
-                                            FROM         tl_content
-                                            WHERE       `pid` = (
-                                                                SELECT      `id`
-                                                                FROM         tl_article
-                                                                WHERE        `pid` = ?
-                                            )
-                           AND      `type` = 'module'
-                           )"
+                ->prepare("SELECT     *
+                           FROM       tl_module m
+                           INNER JOIN tl_content c ON (m.id=c.`module`)
+                           INNER JOIN tl_article a ON (c.pid=a.id)
+                           WHERE c.`type`=? AND m.`type`=? AND a.pid=?"
                 )
-                ->execute($arrComment['parent']);
+                ->limit(1)
+                ->execute('module', 'nlsh_guestbook', $arrComment['parent']);
 
          // nur wenn Eintrag vom Modul 'nlsh_guestbook'
         if ($this->tlModule->type == 'nlsh_guestbook') {
