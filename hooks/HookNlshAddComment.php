@@ -101,6 +101,7 @@ class HookNlshAddComment extends \Backend
                     ->execute($tl_content->module);
          End Step by step */
 
+         // Dank an thkuhn #23
         $this->tlModule = $this->Database
                 ->prepare("SELECT     *
                            FROM       tl_module m
