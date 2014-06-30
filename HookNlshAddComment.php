@@ -189,7 +189,7 @@ class HookNlshAddComment extends \Backend
                 $email->html    = str_replace('[h]', '<h1>', $arrComment['comment']);
                 $email->html    = str_replace('[/h]', '</h1>', $email->html);
 
-                $email->sendTo($this->tlModule->com_nlsh_gb_email);
+                $email->sendTo($this->tl_module->com_nlsh_gb_email);
             }
         };
     }
