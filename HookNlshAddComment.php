@@ -181,7 +181,7 @@ class HookNlshAddComment extends \Backend
                     ->execute($arrComment['comment'], $intId);
 
              // Benachrichtigungs- Mail erstellen und senden, wenn gewünscht
-            if ($this->tl_module->com_nlsh_gb_bolMail == TRUE) {
+            if ($this->tlModule->com_nlsh_gb_bolMail == TRUE) {
                 $this->import('Email');
 
                 $email          = new \email;
@@ -189,7 +189,7 @@ class HookNlshAddComment extends \Backend
                 $email->html    = str_replace('[h]', '<h1>', $arrComment['comment']);
                 $email->html    = str_replace('[/h]', '</h1>', $email->html);
 
-                $email->sendTo($this->tl_module->com_nlsh_gb_email);
+                $email->sendTo($this->tlModule->com_nlsh_gb_email);
             }
         };
     }
