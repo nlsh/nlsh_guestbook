@@ -103,7 +103,7 @@ class HookNlshAddComment extends \Backend
 
          // Dank an thkuhn #23
         $this->tlModule = $this->Database
-                ->prepare("SELECT     *
+                ->prepare("SELECT     m.*
                            FROM       tl_module m
                            INNER JOIN tl_content c ON (m.id=c.`module`)
                            INNER JOIN tl_article a ON (c.pid=a.id)
